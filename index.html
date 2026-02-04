@@ -36,33 +36,37 @@
             color: var(--text-color);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            overflow-x: hidden;
         }
         
         .container {
             max-width: 900px;
             margin: 0 auto;
+            width: 100%;
         }
         
         .form-header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
+            margin-bottom: 20px;
+            padding: 20px 15px;
             background: var(--primary-color);
             color: var(--white);
             border-radius: 10px;
             box-shadow: var(--shadow);
             position: relative;
+            overflow: hidden;
         }
         
         .form-header h1 {
-            font-size: 2.2rem;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
             margin-bottom: 10px;
             color: var(--white);
+            word-wrap: break-word;
         }
         
         .form-header p {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
             opacity: 0.9;
             max-width: 700px;
             margin: 0 auto;
@@ -1254,31 +1258,6 @@
             transform: translateY(-2px);
         }
         
-        .copy-link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-        
-        .copy-link-btn:hover {
-            background: #545b62;
-        }
-        
-        .copy-link-btn.copied {
-            background: var(--success-color);
-        }
-        
         .close-reviews {
             background: var(--primary-color);
             color: white;
@@ -1376,6 +1355,25 @@
         .bureau-btn:hover {
             background: #2980b9;
             transform: translateY(-2px);
+        }
+
+        /* IDIQ bureau button - distinct identity green */
+        .bureau-card.idiq-card {
+            border: 2px solid #1a6b3c;
+        }
+        .bureau-card.idiq-card:hover {
+            border-color: #1a6b3c;
+            box-shadow: 0 5px 18px rgba(26, 107, 60, 0.25);
+        }
+        .bureau-card.idiq-card h4 i {
+            color: #1a6b3c;
+        }
+        .bureau-btn.idiq-btn {
+            background: linear-gradient(135deg, #1a6b3c 0%, #145a30 100%);
+        }
+        .bureau-btn.idiq-btn:hover {
+            background: linear-gradient(135deg, #145a30 0%, #0f4a26 100%);
+            box-shadow: 0 4px 12px rgba(26, 107, 60, 0.35);
         }
         
         /* Print/PDF Section */
@@ -1961,6 +1959,231 @@
             50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
+        
+        /* ===================================== */
+        /* MOBILE RESPONSIVE FIXES */
+        /* ===================================== */
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .form-header {
+                padding: 60px 10px 15px;
+                margin-bottom: 15px;
+            }
+            
+            .form-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .form-header p {
+                font-size: 0.9rem;
+            }
+            
+            /* Fix translator section for mobile */
+            .translator-section {
+                position: static;
+                margin: 0 0 15px 0;
+                max-width: 100%;
+                width: 100%;
+                padding: 10px;
+            }
+            
+            /* Fix login section for mobile */
+            .login-section {
+                position: static;
+                margin: 0 0 15px 0;
+                max-width: 100%;
+                width: 100%;
+                padding: 10px;
+            }
+            
+            /* Admin notice */
+            .admin-required-notice {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .admin-required-notice h3 {
+                font-size: 1.3rem;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .admin-required-notice p {
+                font-size: 0.95rem;
+            }
+            
+            /* Form sections */
+            .form-section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .form-section h2 {
+                font-size: 1.3rem;
+            }
+            
+            /* Form grid responsive */
+            .form-grid {
+                grid-template-columns: 1fr !important;
+                gap: 15px;
+            }
+            
+            /* Input groups */
+            .input-group {
+                margin-bottom: 15px;
+            }
+            
+            .input-group label {
+                font-size: 0.9rem;
+            }
+            
+            .input-group input,
+            .input-group select,
+            .input-group textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 10px;
+            }
+            
+            /* Buttons */
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            /* Progress bar */
+            .progress-container {
+                margin: 15px 0;
+            }
+            
+            /* Modals */
+            .modal-content {
+                width: 95%;
+                max-width: 100%;
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .modal h2 {
+                font-size: 1.3rem;
+            }
+            
+            .print-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .print-option {
+                width: 100%;
+            }
+            
+            /* Signature canvas */
+            #signatureCanvas {
+                max-width: 100%;
+                height: 200px;
+            }
+            
+            /* Credit simulator */
+            .simulator-inputs {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Recommendations */
+            .recommendation-card {
+                margin-bottom: 10px;
+            }
+            
+            /* Disclaimers */
+            .disclaimer-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .disclaimer-item {
+                padding: 12px;
+            }
+            
+            /* Tables */
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .form-header {
+                padding: 55px 8px 12px;
+                border-radius: 8px;
+            }
+            
+            .form-header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .form-header p {
+                font-size: 0.85rem;
+            }
+            
+            .form-section {
+                padding: 12px;
+            }
+            
+            .form-section h2 {
+                font-size: 1.1rem;
+            }
+            
+            .translator-toggle,
+            .login-btn,
+            .logout-btn {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+            
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+            
+            .input-group label {
+                font-size: 0.85rem;
+            }
+            
+            .input-group input,
+            .input-group select,
+            .input-group textarea {
+                font-size: 16px;
+                padding: 8px;
+            }
+            
+            .modal-content {
+                padding: 12px;
+            }
+            
+            table {
+                font-size: 0.75rem;
+            }
+            
+            th, td {
+                padding: 6px 3px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2439,10 +2662,10 @@
                     </div>
                     
                     <div class="webswan-btn-container">
-                        <a href="https://www.google.com/search?q=price+range+for+custom+web+design+ux+ui+from+web+developer&rlz=1CAIPNW_enUS1176&oq=price+range+for+custom+web+design+ux+ui+from+web+developer&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRirAtIBCTEyNzQ5ajBqOagCALACAA&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener noreferrer" class="webswan-btn webdesign" data-link="https://www.google.com/search?q=price+range+for+custom+web+design+ux+ui+from+web+developer&rlz=1CAIPNW_enUS1176&oq=price+range+for+custom+web+design+ux+ui+from+web+developer&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRirAtIBCTEyNzQ5ajBqOagCALACAA&sourceid=chrome&ie=UTF-8">
+                        <a href="https://www.google.com/search?q=price+range+for+custom+web+design+ux+ui+from+web+developer&rlz=1CAIPNW_enUS1176&oq=price+range+for+custom+web+design+ux+ui+from+web+developer&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRirAtIBCTEyNzQ5ajBqOagCALACAA&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener noreferrer" class="webswan-btn webdesign" data-link="https://www.google.com/search?q=price+range+for+custom+web+design+ux+ui+from+web+developer&rlz=1CAIPNW_enUS1176&oq=price+range+for+custom+web+design+ux+ui+from+web+developer&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRirAtIBCTEyNzQ5ajBqOagCALACAA&sourceid=chrome&ie=UTF-8">
                             <i class="fas fa-paint-brush"></i> Custom Web Design Pricing
                         </a>
-                        <button type="button" class="copy-link-btn" onclick="copyLink('https://www.google.com/search?q=price+range+for+custom+web+design+ux+ui+from+web+developer&rlz=1CAIPNW_enUS1176&oq=price+range+for+custom+web+design+ux+ui+from+web+developer&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRirAtIBCTEyNzQ5ajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
+                        <button type="button" class="copy-link-btn" onclick="copyLink('https://www.google.com/search?q=price+range+for+custom+web+design+ux+ui+from+web+developer&rlz=1CAIPNW_enUS1176&oq=price+range+for+custom+web+design+ux+ui+from+web+developer&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRirAtIBCTEyNzQ5ajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
                             <i class="far fa-copy"></i> Copy Link
                         </button>
                     </div>
@@ -2514,6 +2737,15 @@
                             Visit Credit Sesame
                         </a>
                     </div>
+
+                    <!-- IDIQ Button -->
+                    <div class="bureau-card idiq-card">
+                        <h4><i class="fas fa-shield-alt"></i> IdentityIQ</h4>
+                        <p>Secure credit monitoring with all 3 bureau reports and identity theft protection</p>
+                        <a href="https://www.identityiq.com/sc-securepreferred.aspx?offercode=431297F8" target="_blank" rel="noopener noreferrer" class="bureau-btn idiq-btn">
+                            Visit IdentityIQ
+                        </a>
+                    </div>
                 </div>
             </section>
             
@@ -2545,6 +2777,143 @@
                         <a href="https://copilot.microsoft.com" target="_blank" class="ai-link">
                             Open Copilot
                         </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- States Website Compliance Section -->
+            <section class="states-compliance-section">
+                <h3><i class="fas fa-balance-scale"></i> State Website Compliance Information</h3>
+                <p style="color: #666; margin-bottom: 20px;">Click on any state below to view website compliance requirements and potential penalties for non-compliance. This information is crucial for understanding legal requirements for websites operating in different states.</p>
+                
+                <div class="states-grid">
+                    <div class="state-card">
+                        <h4><i class="fas fa-sun"></i> Florida</h4>
+                        <p>Website compliance requirements and penalties for the State of Florida</p>
+                        <a href="https://www.google.com/search?q=state+of+florida+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+virginia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzITCAEQLhjHARixAxjRAxiABBiKBTIICAIQRRgnGDsyBggDEEUYOzIGCAQQRRg5MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjI1NmowajSoAgGwAgHxBbVCuOBgMu2R8QW1QrjgYDLtkQ&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> Florida Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=state+of+florida+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+virginia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzITCAEQLhjHARixAxjRAxiABBiKBTIICAIQRRgnGDsyBggDEEUYOzIGCAQQRRg5MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjI1NmowajSoAgGwAgHxBbVCuOBgMu2R8QW1QrjgYDLtkQ&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <div class="state-card">
+                        <h4><i class="fas fa-mountain"></i> Virginia</h4>
+                        <p>Website compliance requirements and penalties for the State of Virginia</p>
+                        <a href="https://www.google.com/search?q=state+of+virginia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGMcBGLEDGNEDGIAEGIoFMggIAxBFGCcYOzIGCAQQRRg7MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjgwOGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> Virginia Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=state+of+virginia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGMcBGLEDGNEDGIAEGIoFMggIAxBFGCcYOzIGCAQQRRg7MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjgwOGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <div class="state-card">
+                        <h4><i class="fas fa-building"></i> New York</h4>
+                        <p>Website compliance requirements and penalties for the State of New York</p>
+                        <a href="https://www.google.com/search?q=state+of+new+york+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+new&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MgYIAhAjGCcyEAgDEC4YkQIYsQMYgAQYigUyDQgEEC4YkQIYgAQYigUyDQgFEAAYkQIYgAQYigUyDQgGEAAYkQIYgAQYigUyBwgHEC4YgAQyBwgIEAAYgAQyDQgJEAAYkQIYgAQYigXSAQg3MTAyajBqOagCALACAA&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> New York Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=state+of+new+york+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+new&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MgYIAhAjGCcyEAgDEC4YkQIYsQMYgAQYigUyDQgEEC4YkQIYgAQYigUyDQgFEAAYkQIYgAQYigUyDQgGEAAYkQIYgAQYigUyBwgHEC4YgAQyBwgIEAAYgAQyDQgJEAAYkQIYgAQYigXSAQg3MTAyajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <div class="state-card">
+                        <h4><i class="fas fa-palm-tree"></i> California</h4>
+                        <p>Website compliance requirements and penalties for the State of California</p>
+                        <a href="https://www.google.com/search?q=state+of+california+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+cal&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIQCAEQLhjHARixAxjRAxiABDIGCAIQRRg5MhMIAxAuGIMBGJECGLEDGIAEGIoFMg0IBBAAGJECGIAEGIoFMgcIBRAAGIAEMg0IBhAAGJECGIAEGIoFMgwIBxAAGBQYhwIYgAQyDQgIEC4YrwEYxwEYgAQyBwgJEAAYjwLSAQgzMjQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> California Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=state+of+california+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+cal&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIQCAEQLhjHARixAxjRAxiABDIGCAIQRRg5MhMIAxAuGIMBGJECGLEDGIAEGIoFMg0IBBAAGJECGIAEGIoFMgcIBRAAGIAEMg0IBhAAGJECGIAEGIoFMgwIBxAAGBQYhwIYgAQyDQgIEC4YrwEYxwEYgAQyBwgJEAAYjwLSAQgzMjQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <div class="state-card">
+                        <h4><i class="fas fa-star"></i> Texas</h4>
+                        <p>Website compliance requirements and penalties for the State of Texas</p>
+                        <a href="https://www.google.com/search?q=state+of+texas+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+te&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGIMBGJECGLEDGIAEGIoFMg0IAxAAGJECGIAEGIoFMg0IBBAAGJECGIAEGIoFMg0IBRAAGJECGIAEGIoFMgYIBhBFGDwyBggHEEUYPNIBCDg1NDhqMGo5qAIAsAIA&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> Texas Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=state+of+texas+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+te&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGIMBGJECGLEDGIAEGIoFMg0IAxAAGJECGIAEGIoFMg0IBBAAGJECGIAEGIoFMg0IBRAAGJECGIAEGIoFMgYIBhBFGDwyBggHEEUYPNIBCDg1NDhqMGo5qAIAsAIA&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <div class="state-card">
+                        <h4><i class="fas fa-peach"></i> Georgia</h4>
+                        <p>Website compliance requirements and penalties for the State of Georgia</p>
+                        <a href="https://www.google.com/search?q=state+of+georgia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+georgia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCDg1NjBqMGo5qAIAsAIB8QUpmJg4AfjIbg&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> Georgia Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=state+of+georgia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+georgia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCDg1NjBqMGo5qAIAsAIB8QUpmJg4AfjIbg&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <!-- All States Compliance Button -->
+                    <div class="state-card">
+                        <h4><i class="fas fa-flag-usa"></i> All States</h4>
+                        <p>Search for website compliance penalties and requirements across all US states</p>
+                        <a href="https://www.google.com/search?q=all+states+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=all+states&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIPCAEQRRg5GIMBGLEDGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgcICBAAGIAEMgcICRAAGI8C0gEIMzQ4NGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> All States Compliance
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=all+states+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=all+states&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIPCAEQRRg5GIMBGLEDGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgcICBAAGIAEMgcICRAAGI8C0gEIMzQ4NGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                    
+                    <!-- Companies Penalties Button -->
+                    <div class="state-card">
+                        <h4><i class="fas fa-building"></i> Company Penalties</h4>
+                        <p>Search for companies that have received penalties for website non-compliance</p>
+                        <a href="https://www.google.com/search?q=companies+that+receive+a+penalty+for+website+compliance&rlz=1CAIPNW_enUS1176&oq=companies+that+receive+a+penalty+for+website+compliance&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRifBTIHCAUQIRifBTIHCAYQIRifBTIHCAcQIRifBTIHCAgQIRifBTIHCAkQIRifBdIBCTIyODQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="state-compliance-btn">
+                            <i class="fas fa-external-link-alt"></i> View Company Penalties
+                        </a>
+                        <button type="button" class="copy-link-btn" 
+                                onclick="copyLink('https://www.google.com/search?q=companies+that+receive+a+penalty+for+website+compliance&rlz=1CAIPNW_enUS1176&oq=companies+that+receive+a+penalty+for+website+compliance&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRifBTIHCAUQIRifBTIHCAYQIRifBTIHCAcQIRifBTIHCAgQIRifBTIHCAkQIRifBdIBCTIyODQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
+                            <i class="far fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="compliance-note">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Note:</strong> These links provide information about website compliance requirements specific to each state. Requirements may include accessibility standards (ADA/WCAG), privacy policies, terms of service, data protection regulations, and other legal requirements for websites operating within each state. Non-compliance can result in penalties, fines, and legal action.
                     </div>
                 </div>
             </section>
@@ -2797,143 +3166,6 @@
                     </button>
                 </div>
             </section>
-            
-            <!-- States Website Compliance Section (MOVED TO BOTTOM) -->
-            <section class="states-compliance-section">
-                <h3><i class="fas fa-balance-scale"></i> State Website Compliance Information</h3>
-                <p style="color: #666; margin-bottom: 20px;">Click on any state below to view website compliance requirements and potential penalties for non-compliance. This information is crucial for understanding legal requirements for websites operating in different states.</p>
-                
-                <div class="states-grid">
-                    <div class="state-card">
-                        <h4><i class="fas fa-sun"></i> Florida</h4>
-                        <p>Website compliance requirements and penalties for the State of Florida</p>
-                        <a href="https://www.google.com/search?q=state+of+florida+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+virginia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzITCAEQLhjHARixAxjRAxiABBiKBTIICAIQRRgnGDsyBggDEEUYOzIGCAQQRRg5MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjI1NmowajSoAgGwAgHxBbVCuOBgMu2R8QW1QrjgYDLtkQ&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> Florida Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=state+of+florida+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+virginia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzITCAEQLhjHARixAxjRAxiABBiKBTIICAIQRRgnGDsyBggDEEUYOzIGCAQQRRg5MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjI1NmowajSoAgGwAgHxBbVCuOBgMu2R8QW1QrjgYDLtkQ&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <div class="state-card">
-                        <h4><i class="fas fa-mountain"></i> Virginia</h4>
-                        <p>Website compliance requirements and penalties for the State of Virginia</p>
-                        <a href="https://www.google.com/search?q=state+of+virginia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGMcBGLEDGNEDGIAEGIoFMggIAxBFGCcYOzIGCAQQRRg7MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjgwOGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> Virginia Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=state+of+virginia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGMcBGLEDGNEDGIAEGIoFMggIAxBFGCcYOzIGCAQQRRg7MgYIBRBFGD0yBggGEEUYQTIGCAcQRRg80gEIMjgwOGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <div class="state-card">
-                        <h4><i class="fas fa-building"></i> New York</h4>
-                        <p>Website compliance requirements and penalties for the State of New York</p>
-                        <a href="https://www.google.com/search?q=state+of+new+york+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+new&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MgYIAhAjGCcyEAgDEC4YkQIYsQMYgAQYigUyDQgEEC4YkQIYgAQYigUyDQgFEAAYkQIYgAQYigUyDQgGEAAYkQIYgAQYigUyBwgHEC4YgAQyBwgIEAAYgAQyDQgJEAAYkQIYgAQYigXSAQg3MTAyajBqOagCALACAA&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> New York Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=state+of+new+york+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+new&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MgYIAhAjGCcyEAgDEC4YkQIYsQMYgAQYigUyDQgEEC4YkQIYgAQYigUyDQgFEAAYkQIYgAQYigUyDQgGEAAYkQIYgAQYigUyBwgHEC4YgAQyBwgIEAAYgAQyDQgJEAAYkQIYgAQYigXSAQg3MTAyajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <div class="state-card">
-                        <h4><i class="fas fa-palm-tree"></i> California</h4>
-                        <p>Website compliance requirements and penalties for the State of California</p>
-                        <a href="https://www.google.com/search?q=state+of+california+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+cal&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIQCAEQLhjHARixAxjRAxiABDIGCAIQRRg5MhMIAxAuGIMBGJECGLEDGIAEGIoFMg0IBBAAGJECGIAEGIoFMgcIBRAAGIAEMg0IBhAAGJECGIAEGIoFMgwIBxAAGBQYhwIYgAQyDQgIEC4YrwEYxwEYgAQyBwgJEAAYjwLSAQgzMjQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> California Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=state+of+california+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+cal&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIQCAEQLhjHARixAxjRAxiABDIGCAIQRRg5MhMIAxAuGIMBGJECGLEDGIAEGIoFMg0IBBAAGJECGIAEGIoFMgcIBRAAGIAEMg0IBhAAGJECGIAEGIoFMgwIBxAAGBQYhwIYgAQyDQgIEC4YrwEYxwEYgAQyBwgJEAAYjwLSAQgzMjQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <div class="state-card">
-                        <h4><i class="fas fa-star"></i> Texas</h4>
-                        <p>Website compliance requirements and penalties for the State of Texas</p>
-                        <a href="https://www.google.com/search?q=state+of+texas+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+te&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGIMBGJECGLEDGIAEGIoFMg0IAxAAGJECGIAEGIoFMg0IBBAAGJECGIAEGIoFMg0IBRAAGJECGIAEGIoFMgYIBhBFGDwyBggHEEUYPNIBCDg1NDhqMGo5qAIAsAIA&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> Texas Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=state+of+texas+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+te&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MhMIAhAuGIMBGJECGLEDGIAEGIoFMg0IAxAAGJECGIAEGIoFMg0IBBAAGJECGIAEGIoFMg0IBRAAGJECGIAEGIoFMgYIBhBFGDwyBggHEEUYPNIBCDg1NDhqMGo5qAIAsAIA&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <div class="state-card">
-                        <h4><i class="fas fa-peach"></i> Georgia</h4>
-                        <p>Website compliance requirements and penalties for the State of Georgia</p>
-                        <a href="https://www.google.com/search?q=state+of+georgia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+georgia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCDg1NjBqMGo5qAIAsAIB8QUpmJg4AfjIbg&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> Georgia Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=state+of+georgia+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=state+of+georgia+website+compliance+penalty&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCDg1NjBqMGo5qAIAsAIB8QUpmJg4AfjIbg&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <!-- All States Compliance Button -->
-                    <div class="state-card">
-                        <h4><i class="fas fa-flag-usa"></i> All States</h4>
-                        <p>Search for website compliance penalties and requirements across all US states</p>
-                        <a href="https://www.google.com/search?q=all+states+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=all+states&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIPCAEQRRg5GIMBGLEDGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgcICBAAGIAEMgcICRAAGI8C0gEIMzQ4NGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> All States Compliance
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=all+states+website+compliance+penalty&rlz=1CAIPNW_enUS1176&oq=all+states&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIPCAEQRRg5GIMBGLEDGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgcICBAAGIAEMgcICRAAGI8C0gEIMzQ4NGowajmoAgCwAgA&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                    
-                    <!-- Companies Penalties Button -->
-                    <div class="state-card">
-                        <h4><i class="fas fa-building"></i> Company Penalties</h4>
-                        <p>Search for companies that have received penalties for website non-compliance</p>
-                        <a href="https://www.google.com/search?q=companies+that+receive+a+penalty+for+website+compliance&rlz=1CAIPNW_enUS1176&oq=companies+that+receive+a+penalty+for+website+compliance&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRifBTIHCAUQIRifBTIHCAYQIRifBTIHCAcQIRifBTIHCAgQIRifBTIHCAkQIRifBdIBCTIyODQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="state-compliance-btn">
-                            <i class="fas fa-external-link-alt"></i> View Company Penalties
-                        </a>
-                        <button type="button" class="copy-link-btn" 
-                                onclick="copyLink('https://www.google.com/search?q=companies+that+receive+a+penalty+for+website+compliance&rlz=1CAIPNW_enUS1176&oq=companies+that+receive+a+penalty+for+website+compliance&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRifBTIHCAUQIRifBTIHCAYQIRifBTIHCAcQIRifBTIHCAgQIRifBTIHCAkQIRifBdIBCTIyODQyajBqOagCALACAA&sourceid=chrome&ie=UTF-8', this)">
-                            <i class="far fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="compliance-note">
-                    <i class="fas fa-info-circle"></i>
-                    <div>
-                        <strong>Note:</strong> These links provide information about website compliance requirements specific to each state. Requirements may include accessibility standards (ADA/WCAG), privacy policies, terms of service, data protection regulations, and other legal requirements for websites operating within each state. Non-compliance can result in penalties, fines, and legal action.
-                    </div>
-                </div>
-            </section>
         </form>
         
         <!-- Acknowledgment Modal -->
@@ -2956,7 +3188,6 @@
     <script>
         // Copy Link Function - Global scope with improved fallback
         function copyLink(url, button) {
-            // Try the fallback method first (more reliable across different contexts)
             const textArea = document.createElement('textarea');
             textArea.value = url;
             textArea.style.position = 'fixed';
@@ -2972,7 +3203,6 @@
                 if (successful) {
                     showCopySuccess(button);
                 } else {
-                    // If execCommand fails, try Clipboard API as fallback
                     tryClipboardAPI(url, button);
                 }
             } catch (err) {
@@ -2989,7 +3219,6 @@
                     showCopySuccess(button);
                 }).catch(function(err) {
                     console.error('Clipboard API failed: ', err);
-                    // Show manual copy prompt
                     showManualCopy(url, button);
                 });
             } else {
@@ -3009,7 +3238,6 @@
         }
         
         function showManualCopy(url, button) {
-            // Create a temporary prompt for manual copy
             const promptText = prompt('Copy this link:', url);
             if (promptText !== null) {
                 showCopySuccess(button);
@@ -3018,17 +3246,14 @@
         
         // Copy link for Reviews button (special case since it opens modal)
         function copyReviewsLink(button) {
-            // You can change this to the actual reviews page URL
             const reviewsURL = window.location.href + '#reviews';
             copyLink(reviewsURL, button);
         }
         
         // Format currency input - GLOBAL SCOPE
         function formatCurrency(input) {
-            // Remove all non-digits
             let value = input.value.replace(/\D/g, '');
             
-            // Format with commas
             if (value.length > 0) {
                 value = parseInt(value, 10).toLocaleString('en-US');
                 input.value = '$' + value;
@@ -3045,32 +3270,27 @@
             const simulatorResults = document.getElementById('simulatorResults');
             
             if (!limitInput || !balanceInput || !latePayments || !simulatorResults) {
-                return; // Elements not ready yet
+                return;
             }
             
-            // Remove currency formatting and parse numbers
             const limit = parseInt(limitInput.value.replace(/[$,]/g, '')) || 0;
             const balance = parseInt(balanceInput.value.replace(/[$,]/g, '')) || 0;
             const latePaymentValue = latePayments.value;
             
-            // Only show results if we have valid inputs
             if (limit > 0 && balance >= 0 && latePaymentValue) {
                 simulatorResults.classList.add('visible');
                 
-                // Calculate utilization percentage
                 let utilization = 0;
                 if (limit > 0) {
                     utilization = Math.min(Math.round((balance / limit) * 100), 100);
                 }
                 
-                // Display utilization
                 const utilizationRate = document.getElementById('utilizationRate');
                 const utilizationStatus = document.getElementById('utilizationStatus');
                 
                 utilizationRate.textContent = utilization + '%';
                 utilizationRate.style.color = utilization <= 30 ? '#27ae60' : utilization <= 50 ? '#f39c12' : '#e74c3c';
                 
-                // Set utilization status and color
                 if (utilization === 0) {
                     utilizationStatus.textContent = 'No Credit Usage';
                     utilizationStatus.className = 'utilization-excellent';
@@ -3091,11 +3311,9 @@
                     utilizationStatus.className = 'utilization-very-high';
                 }
                 
-                // Calculate estimated credit score
-                let baseScore = 700; // Start with a fair score
+                let baseScore = 700;
                 
-                // Adjust based on utilization
-                if (utilization === 0) baseScore += 0; // No history
+                if (utilization === 0) baseScore += 0;
                 else if (utilization <= 10) baseScore += 100;
                 else if (utilization <= 20) baseScore += 75;
                 else if (utilization <= 30) baseScore += 50;
@@ -3106,7 +3324,6 @@
                 else if (utilization <= 80) baseScore -= 75;
                 else baseScore -= 100;
                 
-                // Adjust based on late payments
                 if (latePaymentValue === 'never') {
                     baseScore += 50;
                 } else if (latePaymentValue === '30') {
@@ -3117,17 +3334,14 @@
                     baseScore -= 100;
                 }
                 
-                // Ensure score is within 300-850 range
                 let estimatedScore = Math.max(300, Math.min(850, baseScore));
                 
-                // Display estimated score
                 const estimatedScoreElement = document.getElementById('estimatedScore');
                 const scoreStatus = document.getElementById('scoreStatus');
                 
                 estimatedScoreElement.textContent = estimatedScore;
                 estimatedScoreElement.style.color = estimatedScore >= 670 ? '#27ae60' : estimatedScore >= 580 ? '#f39c12' : '#e74c3c';
                 
-                // Set score status and color
                 if (estimatedScore >= 800) {
                     scoreStatus.textContent = 'Exceptional';
                     scoreStatus.className = 'score-excellent';
@@ -3148,7 +3362,6 @@
                     scoreStatus.className = 'score-very-poor';
                 }
                 
-                // Update payment history visualization
                 const paymentHistoryBar = document.getElementById('paymentHistoryBar');
                 const paymentHistoryText = document.getElementById('paymentHistoryText');
                 
@@ -3173,7 +3386,6 @@
                     paymentHistoryText.textContent = 'Select your payment history above';
                 }
                 
-                // Generate recommendations
                 const recommendationText = document.getElementById('recommendationText');
                 let recommendations = [];
                 
@@ -3203,7 +3415,6 @@
                     recommendations.push("Your credit appears to be in good shape! Keep up the good habits.");
                 }
                 
-                // Display recommendations
                 recommendationText.innerHTML = '<ul style="margin: 0; padding-left: 20px;">' +
                     recommendations.map(rec => `<li style="margin-bottom: 8px;">${rec}</li>`).join('') +
                     '</ul>';
@@ -3213,7 +3424,10 @@
             }
         }
         
+        // Wait for DOM to be fully loaded before initializing
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing application...');
+            
             const form = document.getElementById('creditRepairForm');
             const formContainer = document.querySelector('.form-container');
             const adminRequiredNotice = document.getElementById('adminRequiredNotice');
@@ -3239,18 +3453,28 @@
             }
             
             function showForm() {
-                formContainer.classList.add('visible');
-                adminRequiredNotice.style.display = 'none';
+                if (formContainer) {
+                    formContainer.classList.add('visible');
+                }
+                if (adminRequiredNotice) {
+                    adminRequiredNotice.style.display = 'none';
+                }
                 updateLoginSection(true);
             }
             
             function hideForm() {
-                formContainer.classList.remove('visible');
-                adminRequiredNotice.style.display = 'block';
+                if (formContainer) {
+                    formContainer.classList.remove('visible');
+                }
+                if (adminRequiredNotice) {
+                    adminRequiredNotice.style.display = 'block';
+                }
                 updateLoginSection(false);
             }
             
             function updateLoginSection(loggedIn) {
+                if (!loginSection) return;
+                
                 if (loggedIn) {
                     loginSection.innerHTML = `
                         <h4><i class="fas fa-user-check"></i> Admin Logged In</h4>
@@ -3260,11 +3484,15 @@
                         <div class="login-status" style="color: #27ae60;">Welcome, Admin!</div>
                     `;
                     
-                    // Add logout functionality
-                    document.getElementById('logoutBtn').addEventListener('click', function() {
-                        sessionStorage.removeItem('creditAdminLoggedIn');
-                        location.reload();
-                    });
+                    setTimeout(() => {
+                        const logoutBtn = document.getElementById('logoutBtn');
+                        if (logoutBtn) {
+                            logoutBtn.addEventListener('click', function() {
+                                sessionStorage.removeItem('creditAdminLoggedIn');
+                                location.reload();
+                            });
+                        }
+                    }, 100);
                 } else {
                     loginSection.innerHTML = `
                         <h4><i class="fas fa-lock"></i> Admin Login</h4>
@@ -3276,17 +3504,18 @@
                         <div class="login-status" id="loginStatus"></div>
                     `;
                     
-                    // Reinitialize login functionality
                     setTimeout(() => {
                         const newLoginBtn = document.getElementById('loginBtn');
                         const newUsername = document.getElementById('adminUsername');
                         const newPassword = document.getElementById('adminPassword');
                         const newStatus = document.getElementById('loginStatus');
                         
-                        newLoginBtn.addEventListener('click', handleLogin);
-                        newPassword.addEventListener('keypress', function(e) {
-                            if (e.key === 'Enter') handleLogin();
-                        });
+                        if (newLoginBtn && newUsername && newPassword) {
+                            newLoginBtn.addEventListener('click', handleLogin);
+                            newPassword.addEventListener('keypress', function(e) {
+                                if (e.key === 'Enter') handleLogin();
+                            });
+                        }
                         
                         function handleLogin() {
                             const username = newUsername.value.trim();
@@ -3316,36 +3545,37 @@
             }
             
             // Login functionality
-            loginBtn.addEventListener('click', function() {
-                const username = adminUsername.value.trim();
-                const password = adminPassword.value.trim();
+            if (loginBtn && adminUsername && adminPassword) {
+                loginBtn.addEventListener('click', function() {
+                    const username = adminUsername.value.trim();
+                    const password = adminPassword.value.trim();
+                    
+                    if (!username || !password) {
+                        loginStatus.textContent = 'Please enter both username and password';
+                        loginStatus.style.color = '#ffcc00';
+                        return;
+                    }
+                    
+                    if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+                        loginStatus.textContent = 'Login successful!';
+                        loginStatus.style.color = '#27ae60';
+                        sessionStorage.setItem('creditAdminLoggedIn', 'true');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        loginStatus.textContent = 'Invalid username or password';
+                        loginStatus.style.color = '#e74c3c';
+                        adminUsername.value = '';
+                        adminPassword.value = '';
+                        adminUsername.focus();
+                    }
+                });
                 
-                if (!username || !password) {
-                    loginStatus.textContent = 'Please enter both username and password';
-                    loginStatus.style.color = '#ffcc00';
-                    return;
-                }
-                
-                if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-                    loginStatus.textContent = 'Login successful!';
-                    loginStatus.style.color = '#27ae60';
-                    sessionStorage.setItem('creditAdminLoggedIn', 'true');
-                    setTimeout(() => location.reload(), 1000);
-                } else {
-                    loginStatus.textContent = 'Invalid username or password';
-                    loginStatus.style.color = '#e74c3c';
-                    adminUsername.value = '';
-                    adminPassword.value = '';
-                    adminUsername.focus();
-                }
-            });
-            
-            // Allow login with Enter key
-            adminPassword.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    loginBtn.click();
-                }
-            });
+                adminPassword.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        loginBtn.click();
+                    }
+                });
+            }
             
             // ============================================
             // CHECKBOX VALIDATION & SIGNATURE
@@ -3355,6 +3585,8 @@
             const signatureSection = document.getElementById('signatureSection');
             
             function validateCheckboxes() {
+                if (!signatureSection) return;
+                
                 let allChecked = true;
                 checkboxes.forEach(checkbox => {
                     if (!checkbox.checked) {
@@ -3366,12 +3598,10 @@
                     signatureSection.classList.add('visible');
                 } else {
                     signatureSection.classList.remove('visible');
-                    // Clear signature if checkboxes are unchecked
                     clearSignature();
                 }
             }
             
-            // Add event listeners to checkboxes
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', validateCheckboxes);
             });
@@ -3392,8 +3622,9 @@
             let ctx = null;
             let hasSignature = false;
             
-            // Initialize signature pad
             function initSignaturePad() {
+                if (!signaturePad) return;
+                
                 const canvas = document.createElement('canvas');
                 canvas.width = signaturePad.offsetWidth;
                 canvas.height = signaturePad.offsetHeight;
@@ -3401,7 +3632,6 @@
                 canvas.style.height = '100%';
                 canvas.style.borderRadius = '6px';
                 
-                // Clear any existing canvas
                 while (signaturePad.firstChild) {
                     signaturePad.removeChild(signaturePad.firstChild);
                 }
@@ -3413,13 +3643,11 @@
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
                 
-                // Add drawing functionality
                 canvas.addEventListener('mousedown', startDrawing);
                 canvas.addEventListener('mousemove', draw);
                 canvas.addEventListener('mouseup', stopDrawing);
                 canvas.addEventListener('mouseout', stopDrawing);
                 
-                // Touch support for mobile devices
                 canvas.addEventListener('touchstart', handleTouch);
                 canvas.addEventListener('touchmove', handleTouch);
                 canvas.addEventListener('touchend', stopDrawing);
@@ -3465,13 +3693,17 @@
             }
             
             function clearSignature() {
-                const canvas = signaturePad.querySelector('canvas');
-                if (canvas) {
+                const canvas = signaturePad?.querySelector('canvas');
+                if (canvas && ctx) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
                 hasSignature = false;
-                signatureDisplay.classList.remove('visible');
-                signatureText.textContent = 'No signature provided';
+                if (signatureDisplay) {
+                    signatureDisplay.classList.remove('visible');
+                }
+                if (signatureText) {
+                    signatureText.textContent = 'No signature provided';
+                }
             }
             
             function acceptSignature() {
@@ -3480,10 +3712,13 @@
                     return;
                 }
                 
-                signatureText.textContent = 'I understand and agree to the terms - Electronically Signed';
-                signatureDisplay.classList.add('visible');
+                if (signatureText) {
+                    signatureText.textContent = 'I understand and agree to the terms - Electronically Signed';
+                }
+                if (signatureDisplay) {
+                    signatureDisplay.classList.add('visible');
+                }
                 
-                // Show success message
                 const successMsg = document.createElement('div');
                 successMsg.style.cssText = `
                     background: #d4edda;
@@ -3496,9 +3731,10 @@
                 `;
                 successMsg.innerHTML = '<i class="fas fa-check-circle"></i> Signature accepted successfully!';
                 
-                signatureDisplay.parentNode.insertBefore(successMsg, signatureDisplay.nextSibling);
+                if (signatureDisplay && signatureDisplay.parentNode) {
+                    signatureDisplay.parentNode.insertBefore(successMsg, signatureDisplay.nextSibling);
+                }
                 
-                // Remove message after 3 seconds
                 setTimeout(() => {
                     if (successMsg.parentNode) {
                         successMsg.parentNode.removeChild(successMsg);
@@ -3506,23 +3742,22 @@
                 }, 3000);
             }
             
-            // Initialize signature pad on page load
-            setTimeout(initSignaturePad, 100);
+            setTimeout(initSignaturePad, 500);
             
-            // Handle window resize
             window.addEventListener('resize', initSignaturePad);
             
-            // Clear signature button
-            clearSignatureBtn.addEventListener('click', clearSignature);
+            if (clearSignatureBtn) {
+                clearSignatureBtn.addEventListener('click', clearSignature);
+            }
             
-            // Accept signature button
-            acceptSignatureBtn.addEventListener('click', acceptSignature);
+            if (acceptSignatureBtn) {
+                acceptSignatureBtn.addEventListener('click', acceptSignature);
+            }
             
             // ============================================
             // TRANSLATOR FUNCTIONALITY
             // ============================================
             
-            // Translator elements
             const translatorToggle = document.getElementById('translatorToggle');
             const translatorModal = document.getElementById('translatorModal');
             const closeTranslator = document.getElementById('closeTranslator');
@@ -3535,115 +3770,120 @@
             const translationResult = document.getElementById('translationResult');
             const copyTranslation = document.getElementById('copyTranslation');
             
-            // Open translator modal
-            translatorToggle.addEventListener('click', function() {
-                translatorModal.classList.add('active');
-                textToTranslate.focus();
-            });
-            
-            // Close translator modal
-            closeTranslator.addEventListener('click', function() {
-                translatorModal.classList.remove('active');
-            });
-            
-            // Close translator when clicking outside
-            translatorModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    translatorModal.classList.remove('active');
-                }
-            });
-            
-            // Update character count
-            textToTranslate.addEventListener('input', function() {
-                charCount.textContent = this.value.length;
-            });
-            
-            // Swap languages
-            swapLanguages.addEventListener('click', function() {
-                const sourceValue = sourceLanguage.value;
-                const targetValue = targetLanguage.value;
-                
-                sourceLanguage.value = targetValue;
-                targetLanguage.value = sourceValue;
-                
-                // Also swap the text if there's content
-                const sourceText = textToTranslate.value;
-                const targetText = translationResult.textContent;
-                
-                if (targetText !== 'Translation will appear here as you type...') {
-                    textToTranslate.value = targetText;
-                    translationResult.textContent = sourceText;
-                    charCount.textContent = textToTranslate.value.length;
-                }
-            });
-            
-            // Translate text
-            translateBtn.addEventListener('click', function() {
-                const text = textToTranslate.value.trim();
-                const sourceLang = sourceLanguage.value;
-                const targetLang = targetLanguage.value;
-                
-                if (!text) {
-                    translationResult.textContent = 'Please enter some text to translate.';
-                    return;
-                }
-                
-                // Show loading message
-                translationResult.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <i class="fas fa-spinner fa-spin fa-2x" style="color: #86dbdb;"></i>
-                        <p style="margin-top: 10px;">Translating...</p>
-                    </div>
-                `;
-                
-                // For demonstration purposes
-                setTimeout(() => {
-                    performTranslation(text, sourceLang, targetLang);
-                }, 800);
-            });
-            
-            // Real-time translation as user types
-            let typingTimer;
-            textToTranslate.addEventListener('input', function() {
-                clearTimeout(typingTimer);
-                
-                const text = this.value.trim();
-                if (!text || text.length < 3) {
-                    if (!text) {
-                        translationResult.textContent = 'Translation will appear here as you type...';
+            if (translatorToggle) {
+                translatorToggle.addEventListener('click', function() {
+                    if (translatorModal) {
+                        translatorModal.classList.add('active');
                     }
-                    return;
-                }
-                
-                // Only translate after user stops typing for 1.5 seconds
-                typingTimer = setTimeout(() => {
+                    if (textToTranslate) {
+                        textToTranslate.focus();
+                    }
+                });
+            }
+            
+            if (closeTranslator) {
+                closeTranslator.addEventListener('click', function() {
+                    if (translatorModal) {
+                        translatorModal.classList.remove('active');
+                    }
+                });
+            }
+            
+            if (translatorModal) {
+                translatorModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        translatorModal.classList.remove('active');
+                    }
+                });
+            }
+            
+            if (textToTranslate && charCount) {
+                textToTranslate.addEventListener('input', function() {
+                    charCount.textContent = this.value.length;
+                });
+            }
+            
+            if (swapLanguages && sourceLanguage && targetLanguage) {
+                swapLanguages.addEventListener('click', function() {
+                    const sourceValue = sourceLanguage.value;
+                    const targetValue = targetLanguage.value;
+                    
+                    sourceLanguage.value = targetValue;
+                    targetLanguage.value = sourceValue;
+                    
+                    const sourceText = textToTranslate.value;
+                    const targetText = translationResult.textContent;
+                    
+                    if (targetText !== 'Translation will appear here as you type...') {
+                        textToTranslate.value = targetText;
+                        translationResult.textContent = sourceText;
+                        charCount.textContent = textToTranslate.value.length;
+                    }
+                });
+            }
+            
+            if (translateBtn && textToTranslate && translationResult) {
+                translateBtn.addEventListener('click', function() {
+                    const text = textToTranslate.value.trim();
                     const sourceLang = sourceLanguage.value;
                     const targetLang = targetLanguage.value;
                     
-                    // Show loading
+                    if (!text) {
+                        translationResult.textContent = 'Please enter some text to translate.';
+                        return;
+                    }
+                    
                     translationResult.innerHTML = `
-                        <div style="color: #666; font-size: 0.9rem;">
-                            <i class="fas fa-spinner fa-spin"></i> Translating...
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-spinner fa-spin fa-2x" style="color: #86dbdb;"></i>
+                            <p style="margin-top: 10px;">Translating...</p>
                         </div>
                     `;
                     
-                    // Simulate translation
                     setTimeout(() => {
                         performTranslation(text, sourceLang, targetLang);
-                    }, 500);
-                }, 1500);
-            });
+                    }, 800);
+                });
+            }
             
-            // Function to perform translation
+            let typingTimer;
+            if (textToTranslate && translationResult) {
+                textToTranslate.addEventListener('input', function() {
+                    clearTimeout(typingTimer);
+                    
+                    const text = this.value.trim();
+                    if (!text || text.length < 3) {
+                        if (!text) {
+                            translationResult.textContent = 'Translation will appear here as you type...';
+                        }
+                        return;
+                    }
+                    
+                    typingTimer = setTimeout(() => {
+                        const sourceLang = sourceLanguage.value;
+                        const targetLang = targetLanguage.value;
+                        
+                        translationResult.innerHTML = `
+                            <div style="color: #666; font-size: 0.9rem;">
+                                <i class="fas fa-spinner fa-spin"></i> Translating...
+                            </div>
+                        `;
+                        
+                        setTimeout(() => {
+                            performTranslation(text, sourceLang, targetLang);
+                        }, 500);
+                    }, 1500);
+                });
+            }
+            
             function performTranslation(text, sourceLang, targetLang) {
-                // Get language names for display
+                if (!translationResult || !sourceLanguage || !targetLanguage) return;
+                
                 const sourceLangName = sourceLanguage.options[sourceLanguage.selectedIndex].text;
                 const targetLangName = targetLanguage.options[targetLanguage.selectedIndex].text;
                 
-                // Mock translation
                 const mockTranslatedText = `[${targetLangName} Translation]: "${text}"`;
                 
-                // Special case for Haitian Creole for demonstration
                 if (targetLang === 'ht') {
                     translationResult.innerHTML = `
                         <div style="margin-bottom: 10px; color: #666; font-size: 0.9rem;">
@@ -3670,54 +3910,52 @@
                     `;
                 }
                 
-                // Enable copy button
-                copyTranslation.disabled = false;
+                if (copyTranslation) {
+                    copyTranslation.disabled = false;
+                }
             }
             
-            // Copy translation to clipboard
-            copyTranslation.addEventListener('click', function() {
-                const text = translationResult.textContent;
-                
-                // Remove the instructional text if present
-                if (text.includes('Translation will appear here as you type...')) {
-                    return;
-                }
-                
-                // Extract just the translation text
-                let cleanText = text;
-                if (text.includes('→')) {
-                    cleanText = text.split('→')[1] || text;
-                }
-                
-                navigator.clipboard.writeText(cleanText.trim()).then(function() {
-                    // Change button appearance
-                    copyTranslation.classList.add('copied');
-                    copyTranslation.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            if (copyTranslation) {
+                copyTranslation.addEventListener('click', function() {
+                    if (!translationResult) return;
                     
-                    // Reset button after 2 seconds
-                    setTimeout(function() {
-                        copyTranslation.classList.remove('copied');
-                        copyTranslation.innerHTML = '<i class="far fa-copy"></i> Copy Translation';
-                    }, 2000);
-                }).catch(function(err) {
-                    // Fallback for older browsers
-                    const textArea = document.createElement('textarea');
-                    textArea.value = cleanText.trim();
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
+                    const text = translationResult.textContent;
                     
-                    // Update button
-                    copyTranslation.classList.add('copied');
-                    copyTranslation.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    if (text.includes('Translation will appear here as you type...')) {
+                        return;
+                    }
                     
-                    setTimeout(function() {
-                        copyTranslation.classList.remove('copied');
-                        copyTranslation.innerHTML = '<i class="far fa-copy"></i> Copy Translation';
-                    }, 2000);
+                    let cleanText = text;
+                    if (text.includes('→')) {
+                        cleanText = text.split('→')[1] || text;
+                    }
+                    
+                    navigator.clipboard.writeText(cleanText.trim()).then(function() {
+                        copyTranslation.classList.add('copied');
+                        copyTranslation.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        
+                        setTimeout(function() {
+                            copyTranslation.classList.remove('copied');
+                            copyTranslation.innerHTML = '<i class="far fa-copy"></i> Copy Translation';
+                        }, 2000);
+                    }).catch(function(err) {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = cleanText.trim();
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        
+                        copyTranslation.classList.add('copied');
+                        copyTranslation.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        
+                        setTimeout(function() {
+                            copyTranslation.classList.remove('copied');
+                            copyTranslation.innerHTML = '<i class="far fa-copy"></i> Copy Translation';
+                        }, 2000);
+                    });
                 });
-            });
+            }
             
             // ============================================
             // WEB SWAN REVIEWS MODAL FUNCTIONALITY
@@ -3728,40 +3966,44 @@
             const closeReviews = document.getElementById('closeReviews');
             const copyLinkBtns = document.querySelectorAll('.copy-link-btn');
             
-            // Open reviews modal
-            openReviews.addEventListener('click', function() {
-                reviewsModal.classList.add('active');
-            });
+            if (openReviews) {
+                openReviews.addEventListener('click', function() {
+                    if (reviewsModal) {
+                        reviewsModal.classList.add('active');
+                    }
+                });
+            }
             
-            // Close reviews modal
-            closeReviews.addEventListener('click', function() {
-                reviewsModal.classList.remove('active');
-            });
+            if (closeReviews) {
+                closeReviews.addEventListener('click', function() {
+                    if (reviewsModal) {
+                        reviewsModal.classList.remove('active');
+                    }
+                });
+            }
             
-            // Close reviews when clicking outside
-            reviewsModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    reviewsModal.classList.remove('active');
-                }
-            });
+            if (reviewsModal) {
+                reviewsModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        reviewsModal.classList.remove('active');
+                    }
+                });
+            }
             
-            // Copy link buttons functionality
             copyLinkBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const link = this.getAttribute('data-link');
+                    if (!link) return;
                     
                     navigator.clipboard.writeText(link).then(function() {
-                        // Change button appearance
                         btn.classList.add('copied');
                         btn.innerHTML = '<i class="fas fa-check"></i> Link Copied!';
                         
-                        // Reset button after 2 seconds
                         setTimeout(function() {
                             btn.classList.remove('copied');
                             btn.innerHTML = '<i class="far fa-copy"></i> ' + btn.textContent.replace('Copied!', 'Copy Link');
                         }, 2000);
                     }).catch(function(err) {
-                        // Fallback for older browsers
                         const textArea = document.createElement('textarea');
                         textArea.value = link;
                         document.body.appendChild(textArea);
@@ -3769,7 +4011,6 @@
                         document.execCommand('copy');
                         document.body.removeChild(textArea);
                         
-                        // Update button
                         btn.classList.add('copied');
                         btn.innerHTML = '<i class="fas fa-check"></i> Link Copied!';
                         
@@ -3794,17 +4035,21 @@
             
             let selectedPrintOption = null;
             
-            // Open print modal
-            printApplicationBtn.addEventListener('click', function() {
-                printModal.classList.add('active');
-                selectedPrintOption = null;
-                printOptions.forEach(option => option.classList.remove('selected'));
-            });
+            if (printApplicationBtn) {
+                printApplicationBtn.addEventListener('click', function() {
+                    if (printModal) {
+                        printModal.classList.add('active');
+                    }
+                    selectedPrintOption = null;
+                    printOptions.forEach(option => option.classList.remove('selected'));
+                });
+            }
             
-            // Save as PDF button
-            saveAsPDFBtn.addEventListener('click', function() {
-                generatePDF();
-            });
+            if (saveAsPDFBtn) {
+                saveAsPDFBtn.addEventListener('click', function() {
+                    generatePDF();
+                });
+            }
             
             // SMS Buttons Functionality
             const sendSMS1Btn = document.getElementById('sendSMS1');
@@ -3812,7 +4057,6 @@
             
             function collectFormData() {
                 const formData = {
-                    // Personal Information
                     firstName: document.getElementById('firstName')?.value || '',
                     middleName: document.getElementById('middleName')?.value || '',
                     lastName: document.getElementById('lastName')?.value || '',
@@ -3820,14 +4064,10 @@
                     ssn: document.getElementById('ssn')?.value || '',
                     email: document.getElementById('email')?.value || '',
                     phone: document.getElementById('phone')?.value || '',
-                    
-                    // Address Information
                     address: document.getElementById('address')?.value || '',
                     city: document.getElementById('city')?.value || '',
                     state: document.getElementById('state')?.value || '',
                     zipCode: document.getElementById('zipCode')?.value || '',
-                    
-                    // Electronic Signature
                     electronicFirstName: document.getElementById('electronicFirstName')?.value || '',
                     electronicLastName: document.getElementById('electronicLastName')?.value || '',
                     ssnLast4: document.getElementById('ssnLast4')?.value || ''
@@ -3852,7 +4092,6 @@
             }
             
             function sendSMStoPhone(phoneNumber) {
-                // Check if form is valid
                 const formData = collectFormData();
                 
                 if (!formData.firstName || !formData.lastName || !formData.phone) {
@@ -3860,17 +4099,11 @@
                     return;
                 }
                 
-                // Format the message
                 const message = formatSMSMessage(formData);
-                
-                // Create SMS link
                 const smsLink = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
-                
-                // Open SMS link
                 window.open(smsLink, '_self');
             }
             
-            // Add event listeners for SMS buttons
             if (sendSMS1Btn) {
                 sendSMS1Btn.addEventListener('click', function() {
                     const phone = this.getAttribute('data-phone');
@@ -3894,110 +4127,110 @@
                 });
             });
             
-            // Confirm print selection
-            confirmPrintBtn.addEventListener('click', function() {
-                if (!selectedPrintOption) {
-                    alert('Please select an option first.');
-                    return;
-                }
-                
-                printModal.classList.remove('active');
-                
-                switch (selectedPrintOption) {
-                    case 'print':
-                        window.print();
-                        break;
-                    case 'pdf':
-                        generatePDF();
-                        break;
-                    case 'preview':
-                        // Open print preview
-                        const printWindow = window.open('', '_blank');
-                        printWindow.document.write(`
-                            <html>
-                            <head>
-                                <title>Credit Repair Application - Print Preview</title>
-                                <style>
-                                    body { font-family: Arial, sans-serif; padding: 20px; }
-                                    h1 { color: #2c3e50; }
-                                    .section { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-                                    .form-data { background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; }
-                                </style>
-                            </head>
-                            <body>
-                                <h1>Credit Repair Application - Print Preview</h1>
-                                <p>This is a preview of how the document will look when printed.</p>
-                                <div class="section">
-                                    <h3>Form Contents</h3>
-                                    <p>The complete form with all entered data will appear here.</p>
-                                </div>
-                                <button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                                    Print Document
-                                </button>
-                                <button onclick="window.close()" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
-                                    Close Preview
-                                </button>
-                            </body>
-                            </html>
-                        `);
-                        printWindow.document.close();
-                        break;
-                }
-            });
+            if (confirmPrintBtn) {
+                confirmPrintBtn.addEventListener('click', function() {
+                    if (!selectedPrintOption) {
+                        alert('Please select an option first.');
+                        return;
+                    }
+                    
+                    if (printModal) {
+                        printModal.classList.remove('active');
+                    }
+                    
+                    switch (selectedPrintOption) {
+                        case 'print':
+                            window.print();
+                            break;
+                        case 'pdf':
+                            generatePDF();
+                            break;
+                        case 'preview':
+                            const printWindow = window.open('', '_blank');
+                            printWindow.document.write(`
+                                <html>
+                                <head>
+                                    <title>Credit Repair Application - Print Preview</title>
+                                    <style>
+                                        body { font-family: Arial, sans-serif; padding: 20px; }
+                                        h1 { color: #2c3e50; }
+                                        .section { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+                                        .form-data { background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <h1>Credit Repair Application - Print Preview</h1>
+                                    <p>This is a preview of how the document will look when printed.</p>
+                                    <div class="section">
+                                        <h3>Form Contents</h3>
+                                        <p>The complete form with all entered data will appear here.</p>
+                                    </div>
+                                    <button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                        Print Document
+                                    </button>
+                                    <button onclick="window.close()" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+                                        Close Preview
+                                    </button>
+                                </body>
+                                </html>
+                            `);
+                            printWindow.document.close();
+                            break;
+                    }
+                });
+            }
             
-            // Cancel print
-            cancelPrintBtn.addEventListener('click', function() {
-                printModal.classList.remove('active');
-            });
+            if (cancelPrintBtn) {
+                cancelPrintBtn.addEventListener('click', function() {
+                    if (printModal) {
+                        printModal.classList.remove('active');
+                    }
+                });
+            }
             
-            // Close print modal when clicking outside
-            printModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    printModal.classList.remove('active');
-                }
-            });
+            if (printModal) {
+                printModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        printModal.classList.remove('active');
+                    }
+                });
+            }
             
-            // Generate PDF function
             function generatePDF() {
                 alert('PDF generation would be implemented here. In a real application, this would use jsPDF to create a downloadable PDF file with all form data.');
-                
-                // For a real implementation, you would use:
-                // const { jsPDF } = window.jspdf;
-                // const doc = new jsPDF();
-                // doc.text('Credit Repair Application', 20, 20);
-                // ... add form data ...
-                // doc.save('credit-repair-application.pdf');
             }
             
             // ============================================
             // FORM FUNCTIONALITY
             // ============================================
             
-            // Phone formatting
             const phoneInput = document.getElementById('phone');
-            phoneInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                
-                if (value.length > 3 && value.length <= 6) {
-                    value = value.replace(/(\d{3})(\d+)/, '($1) $2');
-                } else if (value.length > 6) {
-                    value = value.replace(/(\d{3})(\d{3})(\d+)/, '($1) $2-$3');
-                }
-                
-                e.target.value = value.substring(0, 14);
-            });
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 3 && value.length <= 6) {
+                        value = value.replace(/(\d{3})(\d+)/, '($1) $2');
+                    } else if (value.length > 6) {
+                        value = value.replace(/(\d{3})(\d{3})(\d+)/, '($1) $2-$3');
+                    }
+                    
+                    e.target.value = value.substring(0, 14);
+                });
+            }
             
-            // ZIP code formatting
             const zipInput = document.getElementById('zipCode');
-            zipInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                
-                if (value.length > 5) {
-                    value = value.replace(/(\d{5})(\d+)/, '$1-$2');
-                }
-                
-                e.target.value = value.substring(0, 10);
-            });
+            if (zipInput) {
+                zipInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 5) {
+                        value = value.replace(/(\d{5})(\d+)/, '$1-$2');
+                    }
+                    
+                    e.target.value = value.substring(0, 10);
+                });
+            }
             
             // ============================================
             // CREDIT SIMULATOR FUNCTIONALITY
@@ -4005,7 +4238,6 @@
             
             const simulatorResults = document.getElementById('simulatorResults');
             
-            // Add currency formatting to credit limit and balance inputs
             const totalCreditLimitInput = document.getElementById('totalCreditLimit');
             const totalBalanceInput = document.getElementById('totalBalance');
             
@@ -4021,15 +4253,14 @@
                 });
             }
             
-            // Initialize calculation on page load if values exist
             setTimeout(function() {
                 const limitInput = document.getElementById('totalCreditLimit');
                 const balanceInput = document.getElementById('totalBalance');
                 
-                if (limitInput.value || balanceInput.value) {
+                if (limitInput && balanceInput && (limitInput.value || balanceInput.value)) {
                     calculateCreditMetrics();
                 }
-            }, 500);
+            }, 1000);
             
             // Checkbox validation and signature field enabling
             const allCheckboxes = [
@@ -4057,12 +4288,14 @@
             const acknowledgmentModal = document.getElementById('acknowledgmentModal');
             const closeAcknowledgmentModalBtn = document.getElementById('closeAcknowledgmentModal');
             
-            // Close acknowledgment modal
-            closeAcknowledgmentModalBtn.addEventListener('click', function() {
-                acknowledgmentModal.classList.remove('active');
-            });
+            if (closeAcknowledgmentModalBtn) {
+                closeAcknowledgmentModalBtn.addEventListener('click', function() {
+                    if (acknowledgmentModal) {
+                        acknowledgmentModal.classList.remove('active');
+                    }
+                });
+            }
             
-            // Function to check if all checkboxes are checked
             function checkAllCheckboxes() {
                 let allChecked = true;
                 allCheckboxes.forEach(function(checkboxId) {
@@ -4074,34 +4307,26 @@
                 return allChecked;
             }
             
-            // Function to enable/disable signature fields
             function updateSignatureFields() {
                 const allChecked = checkAllCheckboxes();
                 
                 if (allChecked) {
-                    // Enable signature fields
-                    signatureFields.firstName.disabled = false;
-                    signatureFields.lastName.disabled = false;
-                    signatureFields.ssnLast4.disabled = false;
-                    
-                    // Change styling to show they're active
-                    signatureFields.firstName.style.background = 'white';
-                    signatureFields.lastName.style.background = 'white';
-                    signatureFields.ssnLast4.style.background = 'white';
+                    Object.values(signatureFields).forEach(field => {
+                        if (field) {
+                            field.disabled = false;
+                            field.style.background = 'white';
+                        }
+                    });
                 } else {
-                    // Disable signature fields
-                    signatureFields.firstName.disabled = true;
-                    signatureFields.lastName.disabled = true;
-                    signatureFields.ssnLast4.disabled = true;
-                    
-                    // Clear values
-                    signatureFields.firstName.value = '';
-                    signatureFields.lastName.value = '';
-                    signatureFields.ssnLast4.value = '';
+                    Object.values(signatureFields).forEach(field => {
+                        if (field) {
+                            field.disabled = true;
+                            field.value = '';
+                        }
+                    });
                 }
             }
             
-            // Add event listeners to all checkboxes
             allCheckboxes.forEach(function(checkboxId) {
                 const checkbox = document.getElementById(checkboxId);
                 if (checkbox) {
@@ -4109,85 +4334,89 @@
                 }
             });
             
-            // Add click event listeners to signature fields to show modal if not all checked
             Object.values(signatureFields).forEach(function(field) {
-                field.addEventListener('click', function() {
-                    if (this.disabled) {
-                        acknowledgmentModal.classList.add('active');
-                    }
-                });
-            });
-            
-            // Validate SSN Last 4 - only allow numbers
-            signatureFields.ssnLast4.addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^0-9]/g, '');
-                if (this.value.length > 4) {
-                    this.value = this.value.slice(0, 4);
+                if (field) {
+                    field.addEventListener('click', function() {
+                        if (this.disabled && acknowledgmentModal) {
+                            acknowledgmentModal.classList.add('active');
+                        }
+                    });
                 }
             });
             
-            // Initialize on page load
+            if (signatureFields.ssnLast4) {
+                signatureFields.ssnLast4.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    if (this.value.length > 4) {
+                        this.value = this.value.slice(0, 4);
+                    }
+                });
+            }
+            
             updateSignatureFields();
             
-            // Form submission (prevent default, use print instead)
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Check if all required fields are filled
-                let isValid = true;
-                const requiredFields = form.querySelectorAll('[required]');
-                
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.style.borderColor = 'var(--accent-color)';
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let isValid = true;
+                    const requiredFields = form.querySelectorAll('[required]');
+                    
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            isValid = false;
+                            field.style.borderColor = 'var(--accent-color)';
+                        } else {
+                            field.style.borderColor = 'var(--border-color)';
+                        }
+                    });
+                    
+                    const checkboxesForm = form.querySelectorAll('input[type="checkbox"][required]');
+                    checkboxesForm.forEach(checkbox => {
+                        if (!checkbox.checked) {
+                            isValid = false;
+                            checkbox.parentElement.style.color = 'var(--accent-color)';
+                        } else {
+                            checkbox.parentElement.style.color = '';
+                        }
+                    });
+                    
+                    if (isValid) {
+                        if (printModal) {
+                            printModal.classList.add('active');
+                        }
+                        selectedPrintOption = null;
+                        printOptions.forEach(option => option.classList.remove('selected'));
                     } else {
-                        field.style.borderColor = 'var(--border-color)';
+                        alert('Please fill in all required fields (marked with *) and check all consent boxes.');
                     }
                 });
-                
-                // Check checkboxes
-                const checkboxes = form.querySelectorAll('input[type="checkbox"][required]');
-                checkboxes.forEach(checkbox => {
-                    if (!checkbox.checked) {
-                        isValid = false;
-                        checkbox.parentElement.style.color = 'var(--accent-color)';
-                    } else {
-                        checkbox.parentElement.style.color = '';
-                    }
-                });
-                
-                if (isValid) {
-                    // Show print modal instead of submitting
-                    printModal.classList.add('active');
-                    selectedPrintOption = null;
-                    printOptions.forEach(option => option.classList.remove('selected'));
-                } else {
-                    alert('Please fill in all required fields (marked with *) and check all consent boxes.');
-                }
-            });
+            }
             
-            // Reset form button
-            form.addEventListener('reset', function() {
-                // Clear any error styles
-                const fields = form.querySelectorAll('input, select, textarea');
-                fields.forEach(field => {
-                    field.style.borderColor = 'var(--border-color)';
+            if (form) {
+                form.addEventListener('reset', function() {
+                    const fields = form.querySelectorAll('input, select, textarea');
+                    fields.forEach(field => {
+                        field.style.borderColor = 'var(--border-color)';
+                    });
+                    
+                    const checkboxesReset = form.querySelectorAll('input[type="checkbox"]');
+                    checkboxesReset.forEach(checkbox => {
+                        checkbox.parentElement.style.color = '';
+                    });
+                    
+                    if (signatureSection) {
+                        signatureSection.classList.remove('visible');
+                    }
+                    clearSignature();
+                    
+                    if (simulatorResults) {
+                        simulatorResults.classList.remove('visible');
+                    }
                 });
-                
-                // Reset checkbox styles
-                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.parentElement.style.color = '';
-                });
-                
-                // Hide signature section
-                signatureSection.classList.remove('visible');
-                clearSignature();
-                
-                // Hide simulator results
-                simulatorResults.classList.remove('visible');
-            });
+            }
+            
+            console.log('Application initialized successfully!');
         });
     </script>
 </body>
