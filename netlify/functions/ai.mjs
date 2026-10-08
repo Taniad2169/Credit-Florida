@@ -1,6 +1,7 @@
 // Credit Repair Software — private AI endpoint (Netlify Function).
 // The OpenAI and Anthropic keys live ONLY in Netlify environment variables, never in the page.
 // Every request must carry a Firebase sign-in token from an allowed staff email.
+// Privacy: request text is never logged or saved here; the page masks SSNs, account numbers and birth dates before sending.
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
 const JWKS = createRemoteJWKSet(new URL("https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com"));
@@ -26,7 +27,7 @@ Only use what is in the report; if something is unclear, say what to verify.`,
   letter: `${BASE}\nWrite a ready-to-print letter for the consumer to send, in the consumer's own voice (first person), professional and firm, citing the correct law section for the letter type. Use the details provided. Use placeholders in [brackets] for anything missing, and use only the last 4 digits of any account number. Include a short list of enclosures (copy of ID and proof of address) and a line for the signature. Output only the letter text, no commentary.`
 };
 
-const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
+const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json", "cache-control": "no-store" } });
 
 export default async (req) => {
   if (req.method !== "POST") return json(405, { error: "Use POST." });
@@ -55,7 +56,7 @@ export default async (req) => {
       const r = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: { "content-type": "application/json", authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-        body: JSON.stringify({ model: OPENAI_MODEL, temperature: 0.3, messages: [{ role: "system", content: MODES[mode] }, { role: "user", content: input }] })
+        body: JSON.stringify({ model: OPENAI_MODEL, temperature: 0.3, store: false, messages: [{ role: "system", content: MODES[mode] }, { role: "user", content: input }] })
       });
       const d = await r.json();
       if (!r.ok) return json(502, { error: "OpenAI: " + (d.error?.message || r.status) });

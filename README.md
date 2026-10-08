@@ -20,3 +20,24 @@ Staff tool for a credit repair company, by WebSwan Digital Solutions.
 4. Firestore rules must allow the staff emails to read/write `credit_clients`.
 
 Credit scores are not pulled from SSN/DOB: that requires a contracted credit-data provider and FCRA permissible purpose. Clients pull their own report and the staff uploads it.
+
+## How consumer financial information is protected
+
+Built in:
+
+- **Saved data is minimal.** The database stores only client name, phone, email and the repairer's comment. The database rules (`firestore.rules`) reject any other field, so an SSN, birth date or report can never be saved, even by mistake.
+- **Comments are scrubbed.** Before a comment is saved, anything that looks like a Social Security number or a full account or card number is removed (last 4 kept).
+- **Credit reports are never stored.** A report is read inside the browser. SSNs, account numbers and birth dates are masked before the text goes to the AI. Nothing is written to the database, and nothing is logged by the Netlify function.
+- **Client permission first.** The AI review only runs after staff confirm the client gave written permission and knows the masked text goes to an AI provider.
+- **AI providers:** OpenAI requests are sent with `store: false`. Neither OpenAI nor Anthropic uses API data to train models by default. Keys live only in Netlify environment variables.
+- **Access control.** Only the emails in `ALLOWED_EMAILS` (Netlify) and in `firestore.rules` (Firebase) can sign in, open client files or use the AI. Every saved record notes who created and last changed it.
+- **Automatic sign-out** after 15 minutes without activity, and the screen is wiped on sign-out.
+- **Encryption.** Everything travels over HTTPS (HSTS on), and Firebase encrypts stored data at rest. Pages are sent with `no-store` so browsers don't cache client details.
+
+What each credit repair company must still do (not legal advice; confirm with their attorney):
+
+- **FTC Safeguards Rule (GLBA):** a written information security program, a named person in charge, a risk assessment, multi-factor authentication for anyone who opens client information (use Google sign-in with 2-Step Verification turned on), staff training, and notifying the FTC within 30 days of a breach affecting 500 or more consumers.
+- **Disposal:** delete a client's record when it is no longer needed (generally no later than 2 years after the last service, unless the law requires keeping it).
+- **Credit Repair Organizations Act (CROA):** written contract, the required consumer disclosure, a 3-day cancellation right, and no payment before services are fully performed.
+- **State law:** for example Florida's Credit Service Organizations Act (Fla. Stat. 817.7001 and following) has its own registration and bond rules.
+- **Privacy notice:** give clients a privacy notice explaining what is collected and how it is used and shared.

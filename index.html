@@ -2108,7 +2108,7 @@
             <section class="cr-card" id="clientsCard">
                 <div class="cr-head"><h3><i class="fas fa-address-book"></i> Clients</h3>
                     <input type="search" id="clientSearch" class="cr-input" placeholder="Search name, phone or email" style="max-width:280px"></div>
-                <p class="cr-note"><i class="fas fa-shield-alt"></i> Saved permanently: name, phone, email and your comment only. Social Security numbers, birth dates, employment and credit reports are never saved.</p>
+                <p class="cr-note"><i class="fas fa-shield-alt"></i> Saved permanently: name, phone, email and your comment only. Social Security numbers, birth dates, employment and credit reports are never saved, and SSNs or full account numbers typed in a comment are removed automatically.</p>
                 <div class="cr-grid">
                     <input id="cName" class="cr-input" placeholder="Client full name">
                     <input id="cPhone" class="cr-input" type="tel" placeholder="Phone">
@@ -2139,6 +2139,7 @@
                     <p class="cr-note">Upload the credit report PDF the client pulled (IdentityIQ, SmartCredit, AnnualCreditReport.com) or paste its text. The report is read in this browser, long numbers are masked before anything is sent to the AI, and the report is never saved.</p>
                     <div class="cr-row"><input type="file" id="reportFile" accept="application/pdf,.pdf,.txt"><span class="cr-msg" id="fileMsg"></span></div>
                     <textarea id="reportText" class="cr-input" rows="6" placeholder="...or paste the report text here"></textarea>
+                    <label class="cr-note" style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="reviewConsent" style="margin-top:3px"> <span>The client gave us written permission to review their credit report, and knows the masked text is sent to an AI service (OpenAI or Anthropic) for this review. The report is never saved.</span></label>
                     <div class="cr-row"><button type="button" class="cr-btn" id="reviewBtn"><i class="fas fa-search"></i> Find derogatory items</button></div>
                 </div>
                 <div class="cr-pane" data-pane="letter" hidden>
@@ -4257,8 +4258,19 @@
         $("staffWho").textContent = user ? user.email : "";
         window.crSignedIn = !!user;
         if (user) { window.crShowApp && window.crShowApp(); watchClients(); }
-        else { window.crHideApp && window.crHideApp(); if (unsub) { unsub(); unsub = null; } clients = []; drawClients(); }
+        else { window.crHideApp && window.crHideApp(); if (unsub) { unsub(); unsub = null; } clients = []; drawClients(); wipeScreen(); }
       });
+      // Nothing sensitive stays on screen after sign-out.
+      function wipeScreen() {
+        ["reportText", "askInput", "aiOut", "lAcct", "lReason", "lTo", "cName", "cPhone", "cEmail", "cComment", "clientSearch"].forEach(i => { const el = $(i); if (el) el.value = ""; });
+        const c = $("reviewConsent"); if (c) c.checked = false; const w = $("aiOutWrap"); if (w) w.hidden = true;
+        document.querySelectorAll("form").forEach(f => { try { f.reset(); } catch (e) {} });
+      }
+      // Automatic sign-out after 15 minutes without activity (protects client files on a shared or unattended computer).
+      const IDLE_MS = 15 * 60 * 1000; let idleTimer = null;
+      const bumpIdle = () => { clearTimeout(idleTimer); if (auth.currentUser) idleTimer = setTimeout(() => { signOut(auth); status("Signed out after 15 minutes without activity."); }, IDLE_MS); };
+      ["click", "keydown", "mousemove", "touchstart", "scroll"].forEach(ev => window.addEventListener(ev, bumpIdle, { passive: true }));
+      onAuthStateChanged(auth, bumpIdle);
 
       /* ---------- Client database (name, phone, email, comment only) ---------- */
       function watchClients() {
@@ -4292,12 +4304,14 @@
       const clearClient = () => { editingId = null; ["cName", "cPhone", "cEmail", "cComment"].forEach(i => $(i).value = ""); $("cSave").innerHTML = '<i class="fas fa-save"></i> Save client'; };
       $("cClear").onclick = clearClient;
       $("cSave").onclick = async () => {
-        const data = { name: $("cName").value.trim(), phone: $("cPhone").value.trim(), email: $("cEmail").value.trim(), comment: $("cComment").value.trim().slice(0, 5000) };
+        const rawComment = $("cComment").value.trim().slice(0, 5000), cleanComment = scrub(rawComment);
+        const data = { name: $("cName").value.trim().slice(0, 200), phone: $("cPhone").value.trim().slice(0, 40), email: $("cEmail").value.trim().slice(0, 200), comment: cleanComment };
+        const me = auth.currentUser?.email || "";
         if (!data.name) { $("cMsg").textContent = "Add the client's name first."; return; }
         try {
-          if (editingId) await updateDoc(doc(db, CLIENTS, editingId), { ...data, updatedAt: serverTimestamp() });
-          else await addDoc(collection(db, CLIENTS), { ...data, createdBy: auth.currentUser?.email || "", createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
-          $("cMsg").textContent = "Saved."; clearClient();
+          if (editingId) await updateDoc(doc(db, CLIENTS, editingId), { ...data, updatedBy: me, updatedAt: serverTimestamp() });
+          else await addDoc(collection(db, CLIENTS), { ...data, createdBy: me, updatedBy: me, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+          $("cMsg").textContent = cleanComment !== rawComment ? "Saved. A Social Security or full account number was removed from the comment for privacy." : "Saved."; clearClient();
         } catch (e) { $("cMsg").textContent = e.code === "permission-denied" ? "This account is not allowed to save client files." : "Could not save: " + e.message; }
       };
       // Prefill from the application form so staff don't type twice (only the four allowed fields).
@@ -4313,8 +4327,14 @@
         document.querySelectorAll(".cr-pane").forEach(p => p.hidden = p.dataset.pane !== tab); });
       // Mask anything that looks like an SSN or a long account/card number, keeping the last 4.
       const mask = t => String(t)
+        .replace(/((?:date\s*of\s*birth|birth\s*date|\bdob\b|\bborn\b)[^0-9a-z]{0,12})(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|[a-z]{3,9}\.?\s+\d{1,2},?\s+\d{4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})/gi, "$1[DOB removed]")
         .replace(/\b\d{3}[- ]?\d{2}[- ]?(\d{4})\b/g, "XXX-XX-$1")
         .replace(/\b(?:\d[ -]?){5,}(\d{4})\b/g, "****$1");
+      // Comments are saved, so strip anything that looks like an SSN or a full account/card number.
+      const scrub = t => String(t)
+        .replace(/\b\d{3}[- ]\d{2}[- ]\d{4}\b/g, "[SSN removed]")
+        .replace(/\b\d{9}\b/g, "[number removed]")
+        .replace(/\b(?:\d[ -]?){11,}\d\b/g, m => "****" + m.replace(/\D/g, "").slice(-4));
       async function askAI(mode, input, title, btn) {
         const user = auth.currentUser; if (!user) { status("Please sign in first."); return; }
         btn.disabled = true; const old = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Working...';
@@ -4344,6 +4364,7 @@
         ev.target.value = "";
       };
       $("reviewBtn").onclick = () => { const t = $("reportText").value.trim(); if (!t) { $("fileMsg").textContent = "Upload or paste the report first."; return; }
+        if (!$("reviewConsent").checked) { $("fileMsg").textContent = "Confirm the client's written permission first (checkbox above)."; return; }
         askAI("review", mask(t), "Credit report review", $("reviewBtn")); };
       $("letterBtn").onclick = () => {
         const v = id => ($(id)?.value || "").trim();
