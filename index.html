@@ -2195,13 +2195,13 @@
             <section class="cr-card" id="clientsCard">
                 <div class="cr-head"><h3><i class="fas fa-address-book"></i> Clients</h3>
                     <input type="search" id="clientSearch" class="cr-input" placeholder="Search name, phone or email" style="max-width:280px"></div>
-                <p class="cr-note"><i class="fas fa-shield-alt"></i> Saved permanently: name, phone, email and your comment only. Social Security numbers, birth dates, employment and credit reports are never saved, and SSNs or full account numbers typed in a comment are removed automatically.</p>
+                <p class="cr-note"><i class="fas fa-shield-alt"></i> Saved in your business's database: client name, phone, email, staff comments, and the last 4 of the SSN (shown as XXX-XX-1234). Not saved by this software: full Social Security numbers, birth dates, employment details and credit reports. SSNs or full account numbers typed in a comment are removed automatically.</p>
                 <div class="cr-grid">
                     <input id="cName" class="cr-input" placeholder="Client full name">
                     <input id="cPhone" class="cr-input" type="tel" placeholder="Phone">
                     <input id="cEmail" class="cr-input" type="email" placeholder="Email">
                 </div>
-                <textarea id="cComment" class="cr-input" rows="3" placeholder="Comment (progress, what was disputed, next follow-up...)"></textarea>
+                <textarea id="cComment" autocomplete="off" class="cr-input" rows="3" placeholder="Comment (progress, what was disputed, next follow-up...)"></textarea>
                 <div class="cr-row"><button type="button" class="cr-btn" id="cSave"><i class="fas fa-save"></i> Save client</button>
                     <button type="button" class="cr-btn ghost" id="cClear">Clear</button><span class="cr-msg" id="cMsg"></span></div>
                 <div id="clientList" class="cr-list"></div>
@@ -2219,14 +2219,14 @@
                     <button type="button" data-tab="letter" aria-selected="false"><i class="fas fa-envelope-open-text"></i> Write a letter</button>
                 </div>
                 <div class="cr-pane" data-pane="ask">
-                    <textarea id="askInput" class="cr-input" rows="4" placeholder="Example: How long can a paid collection stay on a report, and what can the client do about it?"></textarea>
+                    <textarea id="askInput" autocomplete="off" class="cr-input" rows="4" placeholder="Example: How long can a paid collection stay on a report, and what can the client do about it?"></textarea>
                     <div class="cr-row"><button type="button" class="cr-btn" id="askBtn"><i class="fas fa-paper-plane"></i> Ask</button></div>
                 </div>
                 <div class="cr-pane" data-pane="review" hidden>
-                    <p class="cr-note">Upload the credit report PDF the client pulled (IdentityIQ, SmartCredit, AnnualCreditReport.com) or paste its text. The report is read in this browser, long numbers are masked before anything is sent to the AI, and the report is never saved.</p>
+                    <p class="cr-note">Upload the credit report PDF the client pulled (IdentityIQ, SmartCredit, AnnualCreditReport.com) or paste its text. The report is read in this browser. SSNs, account numbers and birth dates are masked before the text is sent to the AI provider you choose. This software does not save the report or its text; the AI provider may keep requests for a limited time under its own data policy.</p>
                     <div class="cr-row"><input type="file" id="reportFile" accept="application/pdf,.pdf,.txt"><span class="cr-msg" id="fileMsg"></span></div>
-                    <textarea id="reportText" class="cr-input" rows="6" placeholder="...or paste the report text here"></textarea>
-                    <label class="cr-note" style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="reviewConsent" style="margin-top:3px"> <span>The client gave us written permission to review their credit report, and knows the masked text is sent to an AI service (OpenAI or Anthropic) for this review. The report is never saved.</span></label>
+                    <textarea id="reportText" autocomplete="off" spellcheck="false" class="cr-input" rows="6" placeholder="...or paste the report text here"></textarea>
+                    <label class="cr-note" style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="reviewConsent" style="margin-top:3px"> <span>The client gave us written permission to review their credit report, and knows the masked text is sent to an AI service (OpenAI or Anthropic) for this review, which may keep it for a limited time under its own policy. This software does not save the report.</span></label>
                     <div class="cr-row"><button type="button" class="cr-btn" id="reviewBtn"><i class="fas fa-search"></i> Find derogatory items</button></div>
                 </div>
                 <div class="cr-pane" data-pane="letter" hidden>
@@ -2240,9 +2240,9 @@
                             <option value="FCRA 605B identity theft block request">Identity theft block (FCRA 605B)</option>
                         </select>
                         <input id="lTo" class="cr-input" placeholder="Send to (Equifax, Experian, TransUnion or the company)">
-                        <input id="lAcct" class="cr-input" placeholder="Creditor / collector and last 4 of the account">
+                        <input id="lAcct" autocomplete="off" class="cr-input" placeholder="Creditor / collector and last 4 of the account">
                     </div>
-                    <textarea id="lReason" class="cr-input" rows="3" placeholder="What is wrong, in plain words (e.g. never 30 days late in March 2024, balance shows $0 paid in full but still reporting $540)"></textarea>
+                    <textarea id="lReason" autocomplete="off" class="cr-input" rows="3" placeholder="What is wrong, in plain words (e.g. never 30 days late in March 2024, balance shows $0 paid in full but still reporting $540)"></textarea>
                     <p class="cr-note">The client's name and mailing address come from the application form below and are not saved.</p>
                     <div class="cr-row"><button type="button" class="cr-btn" id="letterBtn"><i class="fas fa-pen-nib"></i> Write the letter</button></div>
                 </div>
@@ -4726,7 +4726,7 @@
             const pdf = await pdfjsLib.getDocument({ data: await f.arrayBuffer() }).promise;
             for (let i = 1; i <= pdf.numPages; i++) { const c = await (await pdf.getPage(i)).getTextContent(); text += c.items.map(x => x.str).join(" ") + "\n"; }
           }
-          rawReport = text; $("reportText").value = mask(text); $("fileMsg").textContent = `Read ${f.name}. Numbers are masked. Nothing is saved.`;
+          rawReport = text; $("reportText").value = mask(text); $("fileMsg").textContent = `Read ${f.name}. Numbers are masked. The report is not saved by this software.`;
           if (!text.trim()) $("fileMsg").textContent = "This PDF has no readable text (it may be a scan). Paste the text instead.";
         } catch (e) { $("fileMsg").textContent = "Could not read that file: " + e.message; }
         ev.target.value = "";

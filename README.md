@@ -25,9 +25,9 @@ Credit scores are not pulled from SSN/DOB: that requires a contracted credit-dat
 
 Built in:
 
-- **Saved data is minimal.** The database stores only client name, phone, email and the repairer's comment. The database rules (`firestore.rules`) reject any other field, so an SSN, birth date or report can never be saved, even by mistake.
+- **Saved data is minimal, but not zero.** The database stores client name, phone, email, the repairer's comment and the SSN's last 4 (XXX-XX-1234). Treat it as confidential customer information. The database rules (`firestore.rules`) reject any other field, so an SSN, birth date or report can never be saved, even by mistake.
 - **Comments are scrubbed.** Before a comment is saved, anything that looks like a Social Security number or a full account or card number is removed (last 4 kept).
-- **Credit reports are never stored.** A report is read inside the browser. SSNs, account numbers and birth dates are masked before the text goes to the AI. Nothing is written to the database, and nothing is logged by the Netlify function.
+- **Credit reports are never stored.** A report is read inside the browser. SSNs, account numbers and birth dates are masked before the text goes to the AI. Nothing is written to the database, browser storage or the Netlify function logs. The AI provider (OpenAI or Anthropic) receives the masked text and may keep API requests for a limited time under its own data policy; OpenAI calls are sent with `store: false`.
 - **Client permission first.** The AI review only runs after staff confirm the client gave written permission and knows the masked text goes to an AI provider.
 - **AI providers:** OpenAI requests are sent with `store: false`. Neither OpenAI nor Anthropic uses API data to train models by default. Keys live only in Netlify environment variables.
 - **Access control.** Only the emails in `ALLOWED_EMAILS` (Netlify) and in `firestore.rules` (Firebase) can sign in, open client files or use the AI. Every saved record notes who created and last changed it.
