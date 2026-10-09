@@ -2,6 +2,11 @@
   publish = "."
   functions = "netlify/functions"
 
+# The Firebase web API key in index.html is a public client identifier (Firebase docs: it is not a secret;
+# access is protected by Firestore rules and Authorized domains). Tell Netlify secrets scanning to allow it.
+[build.environment]
+  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyAW6jUdCgvbl-oZ-uLHmE0Ydv082ha64HA"
+
 [[headers]]
   for = "/*"
   [headers.values]
