@@ -1,0 +1,38 @@
+rules_version = '2';
+// Credit Repair Software. Client files keep ONLY name, phone, email, the repairer's comment,
+// and the SSN's last 4 digits written as XXX-XX-1234. Full SSNs and birth dates can never be saved.
+// For a company copy, replace the two emails with that company's staff emails and publish in its Firebase project.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['thewebswann@gmail.com', 'taniadomingue373@gmail.com'];
+    }
+    function validClient() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['name', 'phone', 'email', 'comment', 'ssnLast4', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 200
+        && d.phone is string && d.phone.size() <= 40
+        && d.email is string && d.email.size() <= 200
+        && d.comment is string && d.comment.size() <= 5000
+        && (!('ssnLast4' in d) || (d.ssnLast4 is string && d.ssnLast4.matches('^XXX-XX-[0-9]{4}$')))
+        && d.updatedBy == request.auth.token.email;
+    }
+    match /credit_clients/{id} {
+      allow read, delete: if isOwner();
+      allow create: if isOwner() && validClient() && request.resource.data.createdBy == request.auth.token.email;
+      allow update: if isOwner() && validClient() && request.resource.data.createdBy == resource.data.createdBy;
+    }
+    // Signed license agreement: one permanent record per signer, cannot be edited or deleted from the app.
+    match /license_acceptance/{signer} {
+      allow read: if isOwner() && signer == request.auth.token.email;
+      allow create: if isOwner() && signer == request.auth.token.email
+        && request.resource.data.keys().hasOnly(['version', 'company', 'businessState', 'signerName', 'signerTitle', 'signature', 'signerEmail', 'initials', 'acceptedAt', 'userAgent'])
+        && request.resource.data.signerEmail == request.auth.token.email;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

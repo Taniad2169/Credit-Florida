@@ -2041,6 +2041,21 @@
         /* ===== Client database + AI assistant ===== */
         .app-panel{display:flex;flex-direction:column;gap:20px;margin-bottom:24px}
         .app-panel[hidden]{display:none}
+        .cr-res{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+        .cr-res h4{margin:12px 0 8px;color:var(--primary-color)}
+        .cr-check{padding-left:20px;margin:0}.cr-check li{margin-bottom:8px;font-size:.92rem;line-height:1.45}
+        .cr-links{list-style:none;padding:0;margin:0}.cr-links li{margin-bottom:7px;font-size:.92rem}
+        .cr-links a{color:var(--secondary-color);font-weight:600;text-decoration:underline}
+        .cr-gate{position:fixed;inset:0;background:rgba(10,20,40,.72);z-index:10000;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px}
+        .cr-gate[hidden]{display:none}
+        .cr-gate-box{background:#fff;color:#222;border-radius:12px;max-width:860px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+        .cr-gate-box h2{margin:0 0 6px;font-size:1.35rem;color:var(--primary-color)}
+        .cr-lic{max-height:46vh;overflow:auto;border:1px solid var(--border-color);border-radius:8px;padding:14px 16px;font-size:.9rem;line-height:1.5;background:#fafbfc}
+        .cr-lic h4{margin:14px 0 4px}.cr-lic ul{padding-left:20px}
+        .cr-initials{display:flex;flex-direction:column;gap:8px}.cr-initials label{display:flex;gap:8px;align-items:flex-start;font-size:.9rem}
+        .cr-initials input{margin-top:3px}
+        .cr-card label input[type=checkbox],.cr-gate input[type=checkbox]{width:auto!important;flex:0 0 auto;margin:3px 0 0;padding:0}
+        .cr-initials label,.cr-card label.cr-note{font-weight:500;color:#333;text-align:left;justify-content:flex-start;width:100%}
         .cr-card{background:var(--white);border-radius:10px;padding:24px;box-shadow:var(--shadow)}
         .cr-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
         .cr-head h3{margin:0;color:var(--primary-color)}
@@ -2168,6 +2183,167 @@
                 </div>
                 <p class="cr-note" style="margin-top:10px">AI answers are general education, not legal advice. Review every letter before it is sent. No outcome or score increase is guaranteed (CROA).</p>
             </section>
+
+            <section class="cr-card" id="pullCard">
+                <div class="cr-head"><h3><i class="fas fa-id-card"></i> Credit Pull</h3></div>
+                <p class="cr-note"><i class="fas fa-user-shield"></i> The Social Security number and date of birth can only be entered here, during a credit pull, after the client's written authorization. They are never saved: they are erased when the pull ends, when you sign out, or after 10 minutes. Only the last 4 digits can be saved to the client's file, shown as XXX-XX-1234.</p>
+                <div class="cr-grid">
+                    <select id="pullClient" class="cr-input"><option value="">Choose the client...</option></select>
+                    <select id="pullProvider" class="cr-input">
+                        <option value="https://www.identityiq.com/sc-securepreferred.aspx?offercode=431297F8">IdentityIQ (3-bureau report)</option>
+                        <option value="https://www.smartcredit.com">SmartCredit (3-bureau report)</option>
+                        <option value="https://www.annualcreditreport.com">AnnualCreditReport.com (free, official)</option>
+                    </select>
+                </div>
+                <label class="cr-note" style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="pullAuth" style="margin-top:3px"> <span>The client gave us written authorization to obtain their credit report for this credit repair service (FCRA permissible purpose: the consumer's written instructions), and is present or asked us to start now.</span></label>
+                <div class="cr-row"><button type="button" class="cr-btn" id="pullStart"><i class="fas fa-unlock"></i> Start credit pull</button><span class="cr-msg" id="pullMsg"></span></div>
+                <div id="pullFields" hidden>
+                    <div class="cr-grid">
+                        <input id="pullSsn" class="cr-input" type="password" inputmode="numeric" autocomplete="off" maxlength="11" placeholder="Social Security number (9 digits)" disabled>
+                        <input id="pullDob" class="cr-input" type="date" autocomplete="off" aria-label="Date of birth" disabled>
+                    </div>
+                    <div class="cr-row" style="justify-content:flex-start">
+                        <button type="button" class="cr-btn ghost" id="pullOpen"><i class="fas fa-external-link-alt"></i> Open provider</button>
+                        <button type="button" class="cr-btn ghost" id="pullMatch"><i class="fas fa-check-double"></i> Check the uploaded report matches</button>
+                        <button type="button" class="cr-btn" id="pullSave"><i class="fas fa-save"></i> Save last 4 to client file</button>
+                        <button type="button" class="cr-btn danger" id="pullEnd"><i class="fas fa-eraser"></i> End pull and erase</button>
+                        <span class="cr-msg" id="pullTimer"></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cr-card" id="rulesCard">
+                <div class="cr-head"><h3><i class="fas fa-gavel"></i> Rules &amp; Resources for Selling Credit Repair</h3>
+                    <button type="button" class="cr-btn ghost" id="openLicense"><i class="fas fa-file-signature"></i> View my license agreement</button></div>
+                <p class="cr-note">General information, not legal advice. Laws change: confirm every item with a licensed attorney in each state where you do business before you sell credit repair services.</p>
+                <div class="cr-res">
+                    <div>
+                        <h4>Before you sign your first client</h4>
+                        <ol class="cr-check">
+                            <li><b>Register in your state and post any bond it requires</b> before advertising or selling. Many states require registration plus a surety bond (Florida, for example, requires registration with FDACS and a bond).</li>
+                            <li><b>Written contract</b> signed by the client, with the full services, total cost, estimated time to results, and your business name and address (CROA, 15 U.S.C. 1679d).</li>
+                            <li><b>Give the federal disclosure statement</b> "Consumer Credit File Rights Under State and Federal Law" (15 U.S.C. 1679c) on a separate page, before the contract is signed, and keep a signed copy for 2 years.</li>
+                            <li><b>3-business-day right to cancel</b>, with the cancellation form attached to the contract (15 U.S.C. 1679e).</li>
+                            <li><b>No payment before the service is fully performed</b> (CROA 1679b(b)). If you sell by phone, the Telemarketing Sales Rule also bans fees until results are shown with a credit report issued more than 6 months after the results were achieved.</li>
+                            <li><b>No guarantees, no misleading claims</b>: never promise a score increase or the removal of accurate, timely information, and never advise disputing accurate information as wrong or creating a new identity (CPN / file segregation).</li>
+                            <li><b>Written authorization before any credit pull</b>, and only for the client's own file (FCRA permissible purpose).</li>
+                            <li><b>Information security program</b> under the FTC Safeguards Rule: a person in charge, risk assessment, multi-factor sign-in, staff training, vendor oversight, and FTC notice within 30 days of a breach affecting 500 or more consumers.</li>
+                            <li><b>Privacy notice</b> to clients explaining what you collect and share (GLBA Privacy Rule), and E-SIGN consent before using electronic signatures.</li>
+                            <li><b>Telemarketing</b>: check the National Do Not Call Registry before calling, and follow your state's telemarketing rules.</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4>Federal laws and regulators</h4>
+                        <ul class="cr-links">
+                            <li><a href="https://www.ftc.gov/legal-library/browse/statutes/credit-repair-organizations-act" target="_blank" rel="noopener">Credit Repair Organizations Act (FTC)</a></li>
+                            <li><a href="https://www.law.cornell.edu/uscode/text/15/1679c" target="_blank" rel="noopener">Required disclosure statement, 15 U.S.C. 1679c (exact wording)</a></li>
+                            <li><a href="https://www.law.cornell.edu/uscode/text/15/1679e" target="_blank" rel="noopener">3-day cancellation and form, 15 U.S.C. 1679e</a></li>
+                            <li><a href="https://www.ftc.gov/legal-library/browse/rules/telemarketing-sales-rule" target="_blank" rel="noopener">Telemarketing Sales Rule (advance fee ban)</a></li>
+                            <li><a href="https://www.ftc.gov/legal-library/browse/statutes/fair-credit-reporting-act" target="_blank" rel="noopener">Fair Credit Reporting Act</a></li>
+                            <li><a href="https://www.ftc.gov/legal-library/browse/statutes/fair-debt-collection-practices-act" target="_blank" rel="noopener">Fair Debt Collection Practices Act</a></li>
+                            <li><a href="https://www.ftc.gov/business-guidance/resources/ftc-safeguards-rule-what-your-business-needs-know" target="_blank" rel="noopener">FTC Safeguards Rule: what your business needs to know</a></li>
+                            <li><a href="https://www.ftc.gov/business-guidance/privacy-security/gramm-leach-bliley-act/safeguards-rule-form" target="_blank" rel="noopener">FTC Safeguards Rule breach reporting form</a></li>
+                            <li><a href="https://www.donotcall.gov" target="_blank" rel="noopener">National Do Not Call Registry</a></li>
+                            <li><a href="https://www.consumerfinance.gov/enforcement/actions/daniel-a-rosen-inc-dba-credit-repair-cloud-and-daniel-rosen" target="_blank" rel="noopener">Lesson: CFPB case against a credit repair software company over advance fees</a></li>
+                        </ul>
+                        <h4>State registration and bonds</h4>
+                        <ul class="cr-links">
+                            <li><a href="https://consumercompliance.fdacs.gov/" target="_blank" rel="noopener">Florida: FDACS licensing portal (credit service organizations)</a></li>
+                            <li><a href="https://www.flsenate.gov/Laws/Statutes/2022/0817.701" target="_blank" rel="noopener">Florida Credit Service Organizations Act (Fla. Stat. 817.7001 and following)</a></li>
+                            <li><a href="https://www.naag.org/find-my-ag/" target="_blank" rel="noopener">Find your state Attorney General (other states' credit services rules)</a></li>
+                            <li><a href="https://www.suretybonds.com/states/florida/credit-service-organization-bond" target="_blank" rel="noopener">Example: how a credit service organization bond works</a></li>
+                        </ul>
+                        <h4>Consumer resources to share with clients</h4>
+                        <ul class="cr-links">
+                            <li><a href="https://www.annualcreditreport.com" target="_blank" rel="noopener">AnnualCreditReport.com (official free reports)</a></li>
+                            <li><a href="https://www.equifax.com/personal/credit-report-services/credit-dispute/" target="_blank" rel="noopener">Equifax disputes</a> &middot; <a href="https://www.experian.com/disputes/main.html" target="_blank" rel="noopener">Experian disputes</a> &middot; <a href="https://www.transunion.com/credit-disputes/dispute-your-credit" target="_blank" rel="noopener">TransUnion disputes</a></li>
+                            <li><a href="https://www.consumerfinance.gov/complaint/" target="_blank" rel="noopener">CFPB: submit a complaint</a></li>
+                            <li><a href="https://www.identitytheft.gov" target="_blank" rel="noopener">IdentityTheft.gov (FTC)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== SOFTWARE LICENSE AGREEMENT (purchaser must read and sign before first use) ===== -->
+        <div id="licenseGate" class="cr-gate" hidden role="dialog" aria-modal="true" aria-labelledby="licTitle">
+            <div class="cr-gate-box">
+                <h2 id="licTitle"><i class="fas fa-file-signature"></i> WebSwan Credit Repair Software License Agreement</h2>
+                <p class="cr-note">Version <span id="licVer"></span>. Please read the whole agreement. The company that purchased this software must accept it before using it.</p>
+                <div class="cr-lic" id="licText">
+<p>This Software License Agreement ("Agreement") is between <b>WebSwan Digital Solutions</b>, owned by Tania Domingue ("WebSwan", "Licensor"), and the company identified in the signature section below ("Licensee", "you"). By signing, you confirm you are authorized to bind Licensee.</p>
+<h4>1. License</h4>
+<p>WebSwan grants Licensee a limited, non-exclusive, non-transferable, non-sublicensable license to use the WebSwan Credit Repair Software (the "Software") for Licensee's own business during the paid term. Licensee may not resell, rent, share, copy for another business, white-label, reverse engineer, or remove WebSwan notices without WebSwan's written permission. WebSwan owns the Software and all of its intellectual property; Licensee owns its own client data.</p>
+<h4>2. Fees and term</h4>
+<p>Fees, term and renewal are as stated in Licensee's order or invoice. WebSwan may suspend access for non-payment after notice.</p>
+<h4>3. What the Software is, and is not</h4>
+<p>The Software is a business tool. WebSwan is <b>not</b> a credit repair organization, credit services organization, consumer reporting agency, credit bureau, law firm, or debt collector, and does not provide services to Licensee's clients. WebSwan does not obtain credit reports from any bureau. Credit reports come from third-party providers chosen by Licensee or its clients, under those providers' own terms. WebSwan is not affiliated with Equifax, Experian, TransUnion or any provider.</p>
+<h4>4. Licensee is solely responsible for legal compliance</h4>
+<p>Licensee alone decides how it runs its business and is solely responsible for complying with every law that applies to it, including:</p>
+<ul>
+<li><b>Credit Repair Organizations Act (CROA)</b>: a written contract, the required disclosure statement before signing, the 3-business-day right to cancel with the cancellation form, and no payment before services are fully performed; no false or misleading statements.</li>
+<li><b>Telemarketing Sales Rule</b> and the National Do Not Call Registry when selling by phone, including the ban on fees before the required results are shown.</li>
+<li><b>State laws</b>: registration, licensing, <b>surety bonds</b>, required contracts and disclosures in every state where Licensee or its clients are located.</li>
+<li><b>Fair Credit Reporting Act</b>: obtaining credit reports only with the consumer's written authorization and permissible purpose, and disputing only information believed to be inaccurate or unverifiable.</li>
+<li><b>Fair Debt Collection Practices Act</b> where it applies, and federal and state advertising, privacy, data security and breach notification laws, including the FTC Safeguards Rule and GLBA Privacy Rule.</li>
+<li><b>E-SIGN Act</b> consent before using electronic records and signatures with consumers.</li>
+</ul>
+<p>The "Rules &amp; Resources" section of the Software is general information only and is not a complete list of Licensee's obligations.</p>
+<h4>5. Prohibited uses</h4>
+<p>Licensee will not use the Software to: charge fees in violation of CROA, the Telemarketing Sales Rule or state law; guarantee or imply guaranteed results; dispute information it knows is accurate as if it were inaccurate; create or promote credit privacy numbers (CPNs), new identities or file segregation; obtain anyone's credit information without written authorization; enter Social Security numbers or birth dates anywhere other than the Credit Pull fields; or violate anyone's privacy.</p>
+<h4>6. Consumer information and security</h4>
+<p>Licensee's client data is stored in Licensee's own database project. The Software is designed to save only client name, phone, email, staff comments and the last 4 digits of the SSN (shown as XXX-XX-1234). Full SSNs and dates of birth can be entered only during a credit pull and are erased, not saved. Credit reports are read in the browser and not saved. Licensee is responsible for: who it gives access to, multi-factor sign-in for staff, its written information security program, training, keeping devices secure, retention and secure disposal of records, and notifying regulators and consumers of any breach as the law requires. Licensee will tell WebSwan within 72 hours of discovering any security incident involving the Software. WebSwan accesses Licensee's data only when needed to provide support and keeps it confidential.</p>
+<h4>7. AI features</h4>
+<p>AI answers, reviews and letters are general information that may be incomplete or wrong. Licensee must review every output before using it and must not send anything to a consumer, bureau or creditor without human review. Masked text is sent to the AI provider (OpenAI or Anthropic) through Licensee's own API accounts, under those providers' terms. Licensee is responsible for those accounts and costs.</p>
+<h4>8. No legal advice</h4>
+<p>Nothing in the Software, its documentation or from WebSwan staff is legal, financial or compliance advice. Licensee will consult its own licensed attorney.</p>
+<h4>9. Disclaimer of warranties</h4>
+<p>THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE". TO THE FULLEST EXTENT ALLOWED BY LAW, WEBSWAN DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, AND UNINTERRUPTED OR ERROR-FREE OPERATION. WEBSWAN DOES NOT WARRANT ANY CREDIT OUTCOME.</p>
+<h4>10. Limitation of liability</h4>
+<p>TO THE FULLEST EXTENT ALLOWED BY LAW, WEBSWAN WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES, LOST PROFITS, LOST DATA, REGULATORY FINES OR PENALTIES, AND WEBSWAN'S TOTAL LIABILITY FOR ALL CLAIMS WILL NOT EXCEED THE FEES LICENSEE PAID WEBSWAN IN THE 12 MONTHS BEFORE THE CLAIM.</p>
+<h4>11. Indemnification</h4>
+<p>Licensee will defend, indemnify and hold harmless WebSwan, its owner, employees and contractors from all claims, damages, fines, penalties, costs and attorney fees arising from Licensee's business, its services to consumers, its advertising, fees and contracts, its use of the Software or AI outputs, its handling of consumer information, or any violation of law or of this Agreement.</p>
+<h4>12. Suspension and termination</h4>
+<p>WebSwan may suspend or end this license if Licensee does not pay, breaks this Agreement, or WebSwan reasonably believes the Software is being used unlawfully or a regulator requests it. When the license ends, Licensee must stop using the Software and is responsible for exporting or securely deleting its data within 30 days. Sections 3 to 11, 14, 15 and 17 to 19 survive.</p>
+<h4>13. Accounts and passwords</h4>
+<p>Licensee is responsible for every staff account it creates, for keeping sign-in methods secure, for turning on multi-factor authentication, and for all activity under its accounts. Licensee will remove access promptly when a staff member leaves.</p>
+<h4>14. Payment, taxes and refunds</h4>
+<p>Fees are billed in advance as stated in the order. Licensee pays all applicable taxes. Except where the law requires otherwise or the order says so, fees already paid are not refundable. WebSwan may change prices or features with at least 30 days' notice; the change applies from the next billing period.</p>
+<h4>15. No earnings or results claims</h4>
+<p>WebSwan makes no promise that Licensee will earn any income, sign any clients, or achieve any credit result for any consumer. Any examples or projections are illustrations only. Licensee's results depend on its own business, skills, compliance and market.</p>
+<h4>16. Marketing and communications</h4>
+<p>Licensee is responsible for its own advertising and outreach, including truthful advertising, the CAN-SPAM Act for email, the Telephone Consumer Protection Act and Do Not Call rules for calls and texts, and the Telemarketing Sales Rule. Licensee will not use the Software to send spam.</p>
+<h4>17. Dispute resolution</h4>
+<p>Before filing any claim, the parties will try in good faith for 30 days to resolve it informally. Any dispute that is not resolved will be settled by binding individual arbitration in California under the rules of the American Arbitration Association, except that either party may bring an individual claim in small claims court or seek an injunction to protect its intellectual property. Claims must be brought individually, not as a plaintiff or class member in any class or representative action.</p>
+<h4>18. Notices and contact</h4>
+<p>Notices to WebSwan go to WebSwan Digital Solutions at thewebswann@gmail.com. Notices to Licensee go to the email used to sign this Agreement.</p>
+<h4>19. General</h4>
+<p>This Agreement is governed by the laws of the State of California, without regard to conflict-of-law rules, and any court proceeding allowed by Section 17 will be in the state or federal courts located in California. If any part is unenforceable, the rest remains in effect. This is the entire agreement about the Software and replaces prior discussions; WebSwan may update it with notice, and continued use after notice means acceptance. Licensee agrees that its electronic signature below is legally binding under the E-SIGN Act and has the same effect as a handwritten signature.</p>
+                </div>
+                <h3 style="margin-top:14px">Initial each item to confirm you understand</h3>
+                <div class="cr-initials">
+                    <label><input type="checkbox" class="licInit" value="not_cro"> WebSwan provides software only and is not a credit repair organization or credit bureau, and gives no legal advice.</label>
+                    <label><input type="checkbox" class="licInit" value="croa"> We will follow CROA: written contract, disclosure statement, 3-day cancellation, and no payment before services are fully performed.</label>
+                    <label><input type="checkbox" class="licInit" value="tsr"> We will not charge advance fees when selling by phone (Telemarketing Sales Rule) and will honor Do Not Call rules.</label>
+                    <label><input type="checkbox" class="licInit" value="state_bond"> We are (or will be, before selling) registered in our state(s) and have any required surety bond.</label>
+                    <label><input type="checkbox" class="licInit" value="fcra"> We will pull credit only with the client's written authorization and enter SSN and birth date only in the Credit Pull fields.</label>
+                    <label><input type="checkbox" class="licInit" value="security"> We are responsible for protecting our clients' information, staff access, and breach notices.</label>
+                    <label><input type="checkbox" class="licInit" value="liability"> I have read the warranty disclaimer, limitation of liability and indemnification sections, and I agree to individual arbitration (no class actions).</label>
+                    <label><input type="checkbox" class="licInit" value="no_earnings"> WebSwan has made no promise of income, clients or credit results.</label>
+                </div>
+                <div class="cr-grid" style="margin-top:10px">
+                    <input id="licCompany" class="cr-input" placeholder="Company legal name">
+                    <input id="licState" class="cr-input" placeholder="State where the company is registered">
+                    <input id="licName" class="cr-input" placeholder="Your full name">
+                    <input id="licTitleIn" class="cr-input" placeholder="Your title (Owner, CEO...)">
+                </div>
+                <input id="licSign" class="cr-input" placeholder="Type your full name as your electronic signature" style="font-family:'Brush Script MT',cursive;font-size:1.3rem">
+                <p class="cr-note" id="licWho"></p>
+                <div class="cr-row"><span><button type="button" class="cr-btn" id="licAccept"><i class="fas fa-pen-fancy"></i> I agree and sign</button>
+                    <button type="button" class="cr-btn ghost" id="licPrint"><i class="fas fa-print"></i> Print</button>
+                    <button type="button" class="cr-btn ghost" id="licClose" hidden>Close</button></span>
+                    <span class="cr-msg" id="licMsg"></span></div>
+            </div>
         </div>
         
         <!-- Translator Modal -->
@@ -2663,7 +2839,7 @@
             <!-- Credit Bureau Selection Section -->
             <section class="bureau-selection">
                 <h3><i class="fas fa-credit-card"></i> Select Credit Bureau</h3>
-                <p style="color: #666; margin-bottom: 20px;">Select a credit bureau below to access your credit report. Once submitted, we'll use your information to pull your credit report from the selected bureau.</p>
+                <p style="color: #666; margin-bottom: 20px;">Choose a provider below to get your own credit report. You sign up and authorize the report directly with that provider; this software does not pull reports from the credit bureaus.</p>
                 
                 <div class="bureau-grid">
                     <div class="bureau-card">
@@ -4217,17 +4393,19 @@
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
       import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink }
         from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-      import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp }
+      import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query, orderBy, serverTimestamp }
         from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
       /* Firebase project for this software. To give the credit repair company its own private database later,
          replace these values with their Firebase project's web config. */
       const firebaseConfig = {
-        apiKey: "AIzaSyBxuPZnF8rSZPkmoeqNR_9PQtFUJNKU3JM", authDomain: "webswan-gigoia-task.firebaseapp.com", projectId: "webswan-gigoia-task",
-        storageBucket: "webswan-gigoia-task.firebasestorage.app", messagingSenderId: "970866236717", appId: "1:970866236717:web:63ddb5c2557d083b8bc7a4"
+        apiKey: "AIzaSyAW6jUdCgvbl-oZ-uLHmE0Ydv082ha64HA", authDomain: "credit-repair-software-18c7d.firebaseapp.com", projectId: "credit-repair-software-18c7d",
+        storageBucket: "credit-repair-software-18c7d.firebasestorage.app", messagingSenderId: "979375810495", appId: "1:979375810495:web:0b468b505fd1f599d5630a"
       };
       const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
-      const CLIENTS = "credit_clients";   // only name, phone, email, comment
+      const CLIENTS = "credit_clients";   // only name, phone, email, comment (+ SSN last 4 as XXX-XX-1234)
+      const LICENSE_VERSION = "1.0";
+      let rawReport = "";   // unmasked report text, memory only, erased on sign-out / end of pull
       const $ = id => document.getElementById(id);
       const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
       const status = (t, ok) => { const s = $("loginStatus"); s.textContent = t; s.style.color = ok ? "#27ae60" : "#ffcc00"; };
@@ -4257,12 +4435,13 @@
         $("signedOutBox").hidden = !!user; $("signedInBox").hidden = !user;
         $("staffWho").textContent = user ? user.email : "";
         window.crSignedIn = !!user;
-        if (user) { window.crShowApp && window.crShowApp(); watchClients(); }
+        if (user) { checkLicense(user).then(ok => { if (ok) { window.crShowApp && window.crShowApp(); watchClients(); } }); }
         else { window.crHideApp && window.crHideApp(); if (unsub) { unsub(); unsub = null; } clients = []; drawClients(); wipeScreen(); }
       });
       // Nothing sensitive stays on screen after sign-out.
       function wipeScreen() {
         ["reportText", "askInput", "aiOut", "lAcct", "lReason", "lTo", "cName", "cPhone", "cEmail", "cComment", "clientSearch"].forEach(i => { const el = $(i); if (el) el.value = ""; });
+        rawReport = ""; endPull(""); const g = $("licenseGate"); if (g) g.hidden = true;
         const c = $("reviewConsent"); if (c) c.checked = false; const w = $("aiOutWrap"); if (w) w.hidden = true;
         document.querySelectorAll("form").forEach(f => { try { f.reset(); } catch (e) {} });
       }
@@ -4287,9 +4466,10 @@
         $("clientList").innerHTML = list.map(c => `<div class="cr-client"><div style="min-width:0;flex:1 1 260px">
             <b>${esc(c.name)}</b>
             <small>${c.phone ? `<a href="tel:${esc(String(c.phone).replace(/[^0-9+]/g, ""))}">${esc(c.phone)}</a>` : ""}${c.phone && c.email ? " · " : ""}${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ""}</small>
-            ${c.comment ? `<small>${esc(c.comment)}</small>` : ""}</div>
+            ${c.comment ? `<small>${esc(c.comment)}</small>` : ""}${c.ssnLast4 ? `<small>SSN ${esc(c.ssnLast4)}</small>` : ""}</div>
             <div class="cr-row" style="margin:0"><button type="button" class="cr-btn ghost" data-edit="${c.id}">Edit</button><button type="button" class="cr-btn danger" data-del="${c.id}">Delete</button></div></div>`).join("")
           || `<p class="cr-note">${clients.length ? "No clients match your search." : "No clients yet. Add the first one above."}</p>`;
+        fillPullClients();
         $("clientList").querySelectorAll("[data-edit]").forEach(b => b.onclick = () => {
           const c = clients.find(x => x.id === b.dataset.edit); editingId = c.id;
           $("cName").value = c.name || ""; $("cPhone").value = c.phone || ""; $("cEmail").value = c.email || ""; $("cComment").value = c.comment || "";
@@ -4318,6 +4498,100 @@
       const fromForm = () => { if (!$("cName").value && ($("firstName")?.value || $("lastName")?.value)) $("cName").value = `${$("firstName").value} ${$("lastName").value}`.trim();
         if (!$("cPhone").value && $("phone")?.value) $("cPhone").value = $("phone").value; if (!$("cEmail").value && $("email")?.value) $("cEmail").value = $("email").value; };
       $("cName").addEventListener("focus", fromForm);
+
+      /* ---------- License agreement: the purchasing company signs before first use ---------- */
+      async function checkLicense(user) {
+        try {
+          const snap = await getDoc(doc(db, "license_acceptance", user.email));
+          if (snap.exists() && snap.data().version === LICENSE_VERSION) { window.crLicense = snap.data(); return true; }
+        } catch (e) {
+          if (e.code === "permission-denied") { status("This account is not allowed to use this software."); return false; }
+        }
+        showLicense(false); return false;
+      }
+      function showLicense(viewOnly) {
+        $("licVer").textContent = LICENSE_VERSION;
+        const signed = viewOnly && window.crLicense;
+        document.querySelectorAll(".licInit").forEach(b => { b.checked = !!signed; b.disabled = !!signed; });
+        ["licCompany", "licState", "licName", "licTitleIn", "licSign"].forEach(i => { $(i).disabled = !!signed; });
+        if (signed) { const L = window.crLicense; $("licCompany").value = L.company; $("licState").value = L.businessState; $("licName").value = L.signerName; $("licTitleIn").value = L.signerTitle; $("licSign").value = L.signature;
+          $("licWho").textContent = `Signed by ${L.signerName} (${L.signerEmail}) on ${L.acceptedAt?.toDate ? L.acceptedAt.toDate().toLocaleString() : "file"}.`; }
+        else $("licWho").textContent = auth.currentUser ? `You are signing as ${auth.currentUser.email}.` : "";
+        $("licAccept").hidden = !!signed; $("licClose").hidden = !signed; $("licMsg").textContent = "";
+        $("licenseGate").hidden = false; $("licenseGate").scrollTop = 0;
+      }
+      $("licClose").onclick = () => { $("licenseGate").hidden = true; };
+      $("openLicense").onclick = () => showLicense(true);
+      $("licAccept").onclick = async () => {
+        const user = auth.currentUser; if (!user) return;
+        const v = id => $(id).value.trim();
+        if ([...document.querySelectorAll(".licInit")].some(b => !b.checked)) { $("licMsg").textContent = "Please check every item above."; return; }
+        if (!v("licCompany") || !v("licState") || !v("licName") || !v("licTitleIn")) { $("licMsg").textContent = "Fill in the company, state, your name and title."; return; }
+        if (v("licSign").toLowerCase().replace(/\s+/g, " ") !== v("licName").toLowerCase().replace(/\s+/g, " ")) { $("licMsg").textContent = "Type your full name exactly as above to sign."; return; }
+        const rec = { version: LICENSE_VERSION, company: v("licCompany").slice(0, 200), businessState: v("licState").slice(0, 60), signerName: v("licName").slice(0, 120),
+          signerTitle: v("licTitleIn").slice(0, 120), signature: v("licSign").slice(0, 120), signerEmail: user.email,
+          initials: [...document.querySelectorAll(".licInit")].map(b => b.value), acceptedAt: serverTimestamp(), userAgent: navigator.userAgent.slice(0, 300) };
+        try {
+          await setDoc(doc(db, "license_acceptance", user.email), rec);
+          window.crLicense = { ...rec, acceptedAt: { toDate: () => new Date() } };
+          $("licenseGate").hidden = true; window.crShowApp && window.crShowApp(); watchClients();
+        } catch (e) { $("licMsg").textContent = "Could not save your signature: " + (e.code || e.message); }
+      };
+      $("licPrint").onclick = () => { const w = window.open("", "_blank"); if (!w) return; const L = window.crLicense || {};
+        w.document.write(`<!doctype html><meta charset="utf-8"><title>WebSwan Credit Repair Software License Agreement</title><body style="font-family:Georgia,serif;font-size:11.5pt;line-height:1.45;margin:0.8in">
+          <h2>WebSwan Credit Repair Software License Agreement</h2><p>Version ${LICENSE_VERSION}</p>${$("licText").innerHTML}
+          <h3>Signature</h3><p>Company: ${esc($("licCompany").value || L.company || "")}<br>State: ${esc($("licState").value || L.businessState || "")}<br>
+          Name and title: ${esc($("licName").value || L.signerName || "")}, ${esc($("licTitleIn").value || L.signerTitle || "")}<br>
+          Electronic signature: ${esc($("licSign").value || L.signature || "")}<br>Email: ${esc(L.signerEmail || auth.currentUser?.email || "")}<br>
+          Date: ${L.acceptedAt?.toDate ? L.acceptedAt.toDate().toLocaleString() : "________________"}</p></body>`); w.document.close(); w.focus(); w.print(); };
+
+      /* ---------- Credit pull: SSN and date of birth can be entered ONLY here, never saved ---------- */
+      const PULL_MS = 10 * 60 * 1000; let pullTick = null, pullEndsAt = 0;
+      function fillPullClients() {
+        const sel = $("pullClient"); if (!sel) return; const keep = sel.value;
+        sel.innerHTML = '<option value="">Choose the client...</option>' + clients.map(c => `<option value="${esc(c.id)}">${esc(c.name)}${c.ssnLast4 ? " (" + esc(c.ssnLast4) + ")" : ""}</option>`).join("");
+        sel.value = keep;
+      }
+      function endPull(msg) {
+        ["pullSsn", "pullDob"].forEach(i => { const el = $(i); if (el) { el.value = ""; el.disabled = true; } });
+        const f = $("pullFields"); if (f) f.hidden = true; const a = $("pullAuth"); if (a) a.checked = false;
+        clearInterval(pullTick); pullTick = null; const t = $("pullTimer"); if (t) t.textContent = "";
+        const m = $("pullMsg"); if (m && msg !== undefined) m.textContent = msg;
+      }
+      $("pullStart").onclick = () => {
+        if (!$("pullClient").value) { $("pullMsg").textContent = "Choose the client first (add them in Clients if needed)."; return; }
+        if (!$("pullAuth").checked) { $("pullMsg").textContent = "Confirm the client's written authorization first."; return; }
+        $("pullFields").hidden = false; ["pullSsn", "pullDob"].forEach(i => $(i).disabled = false); $("pullSsn").focus();
+        pullEndsAt = Date.now() + PULL_MS; $("pullMsg").textContent = "Credit pull started. Nothing typed here is saved.";
+        clearInterval(pullTick); pullTick = setInterval(() => {
+          const left = pullEndsAt - Date.now();
+          if (left <= 0) { endPull("Time is up: the SSN and date of birth were erased."); return; }
+          $("pullTimer").textContent = `Erases in ${Math.floor(left / 60000)}:${String(Math.floor(left / 1000) % 60).padStart(2, "0")}`;
+        }, 1000);
+      };
+      $("pullSsn").addEventListener("input", e => { e.target.value = e.target.value.replace(/[^0-9-]/g, "").slice(0, 11); });
+      $("pullOpen").onclick = () => { window.open($("pullProvider").value, "_blank", "noopener"); };
+      $("pullEnd").onclick = () => endPull("Credit pull ended. The SSN and date of birth were erased.");
+      $("pullSave").onclick = async () => {
+        const digits = $("pullSsn").value.replace(/\D/g, ""), id = $("pullClient").value;
+        if (digits.length !== 9) { $("pullMsg").textContent = "Enter all 9 digits to save the last 4."; return; }
+        const last4 = "XXX-XX-" + digits.slice(-4);
+        try { await updateDoc(doc(db, CLIENTS, id), { ssnLast4: last4, updatedBy: auth.currentUser?.email || "", updatedAt: serverTimestamp() });
+          $("pullMsg").textContent = `Saved ${last4} to the client file. The full number was not saved.`; }
+        catch (e) { $("pullMsg").textContent = "Could not save: " + (e.code || e.message); }
+      };
+      $("pullMatch").onclick = () => {
+        const text = rawReport || $("reportText").value;
+        if (!text.trim()) { $("pullMsg").textContent = "Upload the client's report first (AI Credit Assistant, Review a credit report)."; return; }
+        const digits = $("pullSsn").value.replace(/\D/g, ""), dob = $("pullDob").value;
+        const out = [];
+        if (digits.length >= 4) out.push("Last 4 of SSN in report: " + (text.includes(digits.slice(-4)) ? "found" : "NOT found"));
+        if (dob) { const [y, m, d] = dob.split("-"), mi = +m, di = +d;
+          const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+          const forms = [`${m}/${d}/${y}`, `${mi}/${di}/${y}`, `${y}-${m}-${d}`, `${months[mi - 1]} ${di}, ${y}`, `${months[mi - 1].slice(0, 3)} ${di}, ${y}`, `${m}/${y}`];
+          out.push("Date of birth in report: " + (forms.some(f => text.toLowerCase().includes(f.toLowerCase())) ? "found" : (text.includes(y) ? "birth year found, full date not shown" : "NOT found"))); }
+        $("pullMsg").textContent = out.length ? out.join(" · ") : "Enter the SSN or date of birth to compare.";
+      };
 
       /* ---------- AI assistant ---------- */
       let provider = "openai", tab = "ask";
@@ -4358,7 +4632,7 @@
             const pdf = await pdfjsLib.getDocument({ data: await f.arrayBuffer() }).promise;
             for (let i = 1; i <= pdf.numPages; i++) { const c = await (await pdf.getPage(i)).getTextContent(); text += c.items.map(x => x.str).join(" ") + "\n"; }
           }
-          $("reportText").value = mask(text); $("fileMsg").textContent = `Read ${f.name}. Numbers are masked. Nothing is saved.`;
+          rawReport = text; $("reportText").value = mask(text); $("fileMsg").textContent = `Read ${f.name}. Numbers are masked. Nothing is saved.`;
           if (!text.trim()) $("fileMsg").textContent = "This PDF has no readable text (it may be a scan). Paste the text instead.";
         } catch (e) { $("fileMsg").textContent = "Could not read that file: " + e.message; }
         ev.target.value = "";

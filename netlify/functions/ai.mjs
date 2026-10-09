@@ -5,7 +5,7 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
 const JWKS = createRemoteJWKSet(new URL("https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com"));
-const PROJECT = process.env.FIREBASE_PROJECT_ID || "webswan-gigoia-task";
+const PROJECT = process.env.FIREBASE_PROJECT_ID || "credit-repair-software-18c7d";
 const ALLOWED = (process.env.ALLOWED_EMAILS || "thewebswann@gmail.com,taniadomingue373@gmail.com")
   .split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";

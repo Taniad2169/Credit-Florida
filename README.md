@@ -41,3 +41,10 @@ What each credit repair company must still do (not legal advice; confirm with th
 - **Credit Repair Organizations Act (CROA):** written contract, the required consumer disclosure, a 3-day cancellation right, and no payment before services are fully performed.
 - **State law:** for example Florida's Credit Service Organizations Act (Fla. Stat. 817.7001 and following) has its own registration and bond rules.
 - **Privacy notice:** give clients a privacy notice explaining what is collected and how it is used and shared.
+
+## License agreement, credit pull and compliance resources
+
+- **License agreement:** the first time a staff email signs in, the purchasing company must read the WebSwan Credit Repair Software License Agreement, check each acknowledgment, and type an electronic signature. The signature is saved permanently in `license_acceptance` and cannot be edited or deleted from the app. To require everyone to re-sign after changing the agreement, raise `LICENSE_VERSION` in `index.html`.
+- **Credit pull:** a full SSN and date of birth can only be typed in the Credit Pull card, after choosing the client and confirming the client's written authorization. They are never saved and are erased when the pull ends, at sign-out, or after 10 minutes. Only `XXX-XX-1234` (last 4) can be saved; the database rules reject any other format.
+- **Rules & Resources:** an in-app checklist of what a company must do before selling credit repair (state registration and bond, CROA contract, disclosure and 3-day cancellation, no advance fees, TSR, FCRA authorization, Safeguards Rule, privacy notice), with clickable links to the FTC, CFPB, statutes, Florida FDACS, state attorneys general and the credit bureaus.
+- **Database rules:** `firestore.rules` is the exact rule set to publish in each company's Firebase project (replace the two staff emails).
